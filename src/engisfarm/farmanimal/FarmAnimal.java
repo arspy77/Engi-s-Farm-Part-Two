@@ -1,4 +1,9 @@
 package engisfarm.farmanimal;
+import engisfarm.LivingThing;
+import engisfarm.Point;
+import engisfarm.Direction;
+import engisfarm.cell.Cell;
+import engisfarm.product.FarmProduct;
 
 /** 
  * Kelas FarmAnimal merupakan kelas turunan dari living thing yang dapat berupa
@@ -6,7 +11,7 @@ package engisfarm.farmanimal;
  * */
 public abstract class FarmAnimal extends LivingThing{
     /** Jenis aksi yang dapat dilakukan ke FarmAnimal */
-    enum Action {
+    public enum Action {
         INTERACT, KILL
     }
 
@@ -27,7 +32,7 @@ public abstract class FarmAnimal extends LivingThing{
     
     /** Constructor maxTimeToGetHungry dengan nilai H */
     public FarmAnimal(int maxTimeToGetHungry, Point position, Cell[][] worldMap, int nRowCell, int nCollumnCell){
-        super(positon, worldMap, nRowCell, nCollumnCell);
+        super(position, worldMap, nRowCell, nCollumnCell);
         this.maxTimeToGetHungry = maxTimeToGetHungry;
         this.timeToGetHungry = maxTimeToGetHungry;
         this.timeToDeath = maxTimeToDeath;
@@ -78,16 +83,6 @@ public abstract class FarmAnimal extends LivingThing{
     protected boolean isHungry(){
         return (this.timeToGetHungry == 0);
     }
-
-    /** mengurangi timeToGetHungry */
-    private void decTimeToGetHungry(){
-        this.timeToGetHungry--;
-    }
-    
-    /** mengurangi timeToDeath */
-    private void decTimetoDeath(){
-        this.timeToDeath--;
-    }
     
     /** Menggerakan FarmAnimal secara random ke posisi yang mungkin ditempati */
     protected void moveHeuristically(){
@@ -106,35 +101,35 @@ public abstract class FarmAnimal extends LivingThing{
                 }
             }
         } //nearestPoint Found
-        Direction d = UP;
+        Direction d = Direction.UP;
         if (nearestPoint.x == -1) {
             int randomInt = (int) Math.random() * 4;
             switch(randomInt){
                 case 0:
-                    d = LEFT;
+                    d = Direction.LEFT;
                     break;
                 case 1:
-                    d = RIGHT;
+                    d = Direction.RIGHT;
                     break;
                 case 2:
-                    d = UP;
+                    d = Direction.UP;
                     break;
                 case 3:
-                    d = DOWN;
+                    d = Direction.DOWN;
                     break;
             }
         } else if (Point.manhattanDist(this.getPosition(), nearestPoint) != 0) {
             if (Math.abs(this.getPosition().x - nearestPoint.x) > Math.abs(this.getPosition().y - nearestPoint.y)) {
                 if (this.getPosition().x < nearestPoint.x) {
-                    d = RIGHT;
+                    d = Direction.RIGHT;
                 } else {
-                    d = LEFT;
+                    d = Direction.LEFT;
                 }
             } else {
                 if (this.getPosition().y < nearestPoint.y) {
-                    d = DOWN;
+                    d = Direction.DOWN;
                 } else {
-                    d = UP;
+                    d = Direction.UP;
                 }
             }
         }

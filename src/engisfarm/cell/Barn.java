@@ -9,5 +9,5 @@ public class Barn extends Land
        }
 
         /** Menandakan bahwa land bertipe Barn */
-        private static final Category category = BARN;
+        private static final Category category = Cell.Category.BARN;
 }

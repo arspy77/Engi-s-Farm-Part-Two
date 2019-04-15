@@ -1,7 +1,7 @@
 package engisfarm;
 
 /* Direction adalah kelas enum yang merepresentasikan gerakan pemain*/
-enum Direction{
+public enum Direction{
     LEFT,
     RIGHT,
     UP,

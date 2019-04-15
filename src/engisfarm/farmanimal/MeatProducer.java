@@ -1,4 +1,6 @@
 package engisfarm.farmanimal;
+import engisfarm.Point;
+import engisfarm.cell.Cell;
 
 /** 
  * MeatProducer adalah kelas abstrak turunan dari FarmAnimal yang tinggal di barn dan
@@ -22,7 +24,7 @@ public abstract class MeatProducer extends FarmAnimal{
     
     /** Mengecek apakah bisa pindah (tidak out of bound, bertipe Barn, tidak ada hewan lain) */
     protected boolean canMoveTo(Cell toWhere){
-        return ( !toWhere.getIsOcupied() && (toWhere.getCategory() == BARN) );
+        return ( !toWhere.getIsOcupied() && (toWhere.getCategory() == Cell.Category.BARN) );
     }
 
     /** 

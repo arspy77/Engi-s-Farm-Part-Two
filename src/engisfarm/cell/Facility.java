@@ -5,7 +5,7 @@ package engisfarm.cell;
  * Facility merupakan kelas turunan dari Cell yang menampung utilitas untuk Player yaitu Truck, Mixer, dan Well
  * dan tidak bisa ditempati oleh LivingThing
  *  */
-public class Facility extends Cell { 
+public abstract class Facility extends Cell { 
     /** Constructor untuk set isOcupied jadi true */
     public Facility()
     {

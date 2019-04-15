@@ -10,5 +10,5 @@ public class Truck extends Facility {
         }
         
         /** Menandakan bahwa land bertipe Truck */
-        private static final Category category = TRUCK;
+        private static final Category category = Cell.Category.TRUCK;
 }

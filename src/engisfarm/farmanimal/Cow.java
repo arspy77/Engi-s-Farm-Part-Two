@@ -1,4 +1,8 @@
 package engisfarm.farmanimal;
+import engisfarm.Point;
+import engisfarm.cell.Cell;
+import engisfarm.product.FarmProduct;
+import engisfarm.product.CowMeat;
 
 /** Cow merupakan kelas turunan dari MeatProducer yang menghasilkan CowMeat saat diinteract */
 public class Cow extends MeatProducer{
@@ -8,15 +12,17 @@ public class Cow extends MeatProducer{
    /** Constructor */
    public Cow(Point position, Cell[][] worldMap, int nRowCell, int nCollumnCell){
        super(maxTimeToGetHungryCow, position, worldMap, nRowCell, nCollumnCell);
-   }
+    }
 
    /** Mengembalikan FarmProduct yang akan dihasilkan Cow bila Cow di kill*/
-   public FarmProduct produceProduct(Action act){
-       FarmProduct fp;
-       if (act == KILL){
-           fp = new CowMeat();
+   public FarmProduct produceProduct(FarmAnimal.Action act){
+       if (act == FarmAnimal.Action.KILL){
+            FarmProduct fp = new CowMeat();
+            return fp;
        }
-       return fp;
+       else{
+           return null;
+       }  
    }
    
    /** Mengembalikan suara dari Cow */

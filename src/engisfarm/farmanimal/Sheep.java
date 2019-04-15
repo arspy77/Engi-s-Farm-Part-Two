@@ -1,4 +1,8 @@
 package engisfarm.farmanimal;
+import engisfarm.Point;
+import engisfarm.cell.Cell;
+import engisfarm.product.FarmProduct;
+import engisfarm.product.SheepMeat;
 
 /** Sheep merupakan kelas turunan dari MeatProducer yang menghasilkan SheepMeat saat diinteract */
 public class Sheep extends MeatProducer{
@@ -11,13 +15,15 @@ public class Sheep extends MeatProducer{
    }
 
    /** Mengembalikan FarmProduct yang akan dihasilkan Sheep bila Sheep di kill*/
-   public FarmProduct produceProduct(Action act){
-       FarmProduct fp;
-       if (act == KILL){
-           fp = new SheepMeat();
-       }
-       return fp;
-   }
+   public FarmProduct produceProduct(FarmAnimal.Action act){
+    if (act == FarmAnimal.Action.KILL){
+         FarmProduct fp = new SheepMeat();
+         return fp;
+    }
+    else{
+        return null;
+    }  
+}
    
    /** Mengembalikan suara dari Sheep */
    public String makeNoise(){

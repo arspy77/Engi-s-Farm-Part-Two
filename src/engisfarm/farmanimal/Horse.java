@@ -1,4 +1,8 @@
 package engisfarm.farmanimal;
+import engisfarm.Point;
+import engisfarm.cell.Cell;
+import engisfarm.product.FarmProduct;
+import engisfarm.product.HorseMilk;
 
 /** Horse merupakan kelas turunan dari MilkProducer yang menghasilkan HorseMilk saat diinteract */
 public class Horse extends MilkProducer{
@@ -11,13 +15,15 @@ public class Horse extends MilkProducer{
     }
 
     /** Mengembalikan FarmProduct yang akan dihasilkan Horse bila Horse di interact */
-    public FarmProduct produceProduct(Action act){
-        FarmProduct fp;
-        if (act == INTERACT){
-            fp = new HorseMilk();
+    public FarmProduct produceProduct(FarmAnimal.Action act){
+        if (act == FarmAnimal.Action.INTERACT){
+            FarmProduct fp = new HorseMilk();
             this.canProduce = false;
+            return fp;
         }
-        return fp;
+        else{
+            return null;
+        }  
     }
     
     /** Mengembalikan suara dari Horse */

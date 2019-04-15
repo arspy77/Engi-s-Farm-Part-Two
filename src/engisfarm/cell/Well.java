@@ -9,5 +9,5 @@ public class Well extends Facility {
         }
         
         /** Menandakan bahwa land bertipe Well */
-        public static final Category category = WELL;
+        public static final Category category = Cell.Category.WELL;
 }

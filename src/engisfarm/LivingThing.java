@@ -1,4 +1,6 @@
 package engisfarm;
+import engisfarm.cell.Cell;
+import engisfarm.Point;
 
 /** LivingThing adalah kelas abstrak yang merepresentasikan makhluk hidup berupa Player dan FarmAnimal */
 public abstract class LivingThing{

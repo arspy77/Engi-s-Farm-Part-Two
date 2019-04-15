@@ -1,19 +1,23 @@
 package engisfarm;
 
+import engisfarm.cell.*;
+import engisfarm.farmanimal.*;
+import engisfarm.product.*;
 import java.util.Scanner;
+import java.util.LinkedList;
 
 /** World adalah kelas yang merepresentasikan dunia yang menyimpan semua Cell dan LivingThing di dalamnya */
 public class World{
     private void drawTrueSpaces(int n) {
         while(n > 0) {
-            printf(" ");
+            System.out.printf(" ");
             n--;
         }
     }
     
     private void drawFrame(int n) {
         while(n > 0) {
-            printf("#");
+            System.out.printf("#");
             n--;
         }
     }
@@ -44,10 +48,10 @@ public class World{
     public World(){
         System.out.println( "NRow NCol? ");
         Scanner in = new Scanner(System.in);
-        
         String[] input = in.nextLine().split(" ");
-        nRowCell = input[0];
-        nCollumnCell = input[1];
+        in.close();
+        nRowCell = Integer.parseInt(input[0]);
+        nCollumnCell =  Integer.parseInt(input[1]);
         map = new Cell[nRowCell][];
         for (int i = 0; i < nRowCell; i++) {
             map[i] = new Cell[nCollumnCell];
@@ -71,7 +75,7 @@ public class World{
         map[1][nCollumnCell - 1] = new Mixer();
         map[3][nCollumnCell - 1] = new Well();
     
-        Point pLoc;
+        Point pLoc = new Point();
         pLoc.x = nCollumnCell / 2;
         pLoc.y = nRowCell / 2;
         pl = new Player(pLoc, map, nRowCell, nCollumnCell);
@@ -83,7 +87,7 @@ public class World{
         for (int i = 0; i < (nRowCell+nCollumnCell)*15/40; i++) {
             pLoc.x = (int) Math.random() * nCollumnCell;
             pLoc.y = (int) Math.random() * nRowCell;
-            while ((map[pLoc.y][pLoc.x].getCategory() != Cell::Category::GRASSLAND) || //bukan di grassland
+            while ((map[pLoc.y][pLoc.x].getCategory() != Cell.Category.GRASSLAND) || //bukan di grassland
                 map[pLoc.y][pLoc.x].getIsOcupied()) { //ocupied, true kalo ocupied
                 pLoc.x = (int) Math.random() * nCollumnCell;
                 pLoc.y = (int) Math.random() * nRowCell;
@@ -97,7 +101,7 @@ public class World{
         for (int i = 0; i < (nRowCell+nCollumnCell)*5/40; i++) {
             pLoc.x = (int) Math.random() * nCollumnCell;
             pLoc.y = (int) Math.random() * nRowCell;
-            while ((map[pLoc.y][pLoc.x].getCategory() != Cell::Category::COOP) || //bukan di grassland
+            while ((map[pLoc.y][pLoc.x].getCategory() != Cell.Category.COOP) || //bukan di grassland
                 map[pLoc.y][pLoc.x].getIsOcupied()) { //ocupied, true kalo ocupied
                 pLoc.x = (int) Math.random() * nCollumnCell;
                 pLoc.y = (int) Math.random() * nRowCell;
@@ -111,7 +115,7 @@ public class World{
         for (int i = 0; i < (nRowCell+nCollumnCell)*5/40; i++) {
             pLoc.x = (int) Math.random() * nCollumnCell;
             pLoc.y = (int) Math.random() * nRowCell;
-            while ((map[pLoc.y][pLoc.x].getCategory() != Cell::Category::BARN) || //bukan di grassland
+            while ((map[pLoc.y][pLoc.x].getCategory() != Cell.Category.BARN) || //bukan di grassland
                 map[pLoc.y][pLoc.x].getIsOcupied()) { //ocupied, true kalo ocupied
                 pLoc.x = (int) Math.random() * nCollumnCell;
                 pLoc.y = (int) Math.random() * nRowCell;
@@ -125,7 +129,7 @@ public class World{
         for (int i = 0; i < (nRowCell+nCollumnCell)*5/40; i++) {
             pLoc.x = (int) Math.random() * nCollumnCell;
             pLoc.y = (int) Math.random() * nRowCell;
-            while ((map[pLoc.y][pLoc.x].getCategory() != Cell::Category::BARN) || //bukan di grassland
+            while ((map[pLoc.y][pLoc.x].getCategory() != Cell.Category.BARN) || //bukan di grassland
                 map[pLoc.y][pLoc.x].getIsOcupied()) { //ocupied, true kalo ocupied
                 pLoc.x = (int) Math.random() * nCollumnCell;
                 pLoc.y = (int) Math.random() * nRowCell;
@@ -139,7 +143,7 @@ public class World{
         for (int i = 0; i < (nRowCell+nCollumnCell)*5/40; i++) {
             pLoc.x = (int) Math.random() * nCollumnCell;
             pLoc.y = (int) Math.random() * nRowCell;
-            while ((map[pLoc.y][pLoc.x].getCategory() != Cell::Category::COOP) || //bukan di grassland
+            while ((map[pLoc.y][pLoc.x].getCategory() != Cell.Category.COOP) || //bukan di grassland
                 map[pLoc.y][pLoc.x].getIsOcupied()) { //ocupied, true kalo ocupied
                 pLoc.x = (int) Math.random() * nCollumnCell;
                 pLoc.y = (int) Math.random() * nRowCell;
@@ -153,7 +157,7 @@ public class World{
         for (int i = 0; i < (nRowCell+nCollumnCell)*5/40; i++) {
             pLoc.x = (int) Math.random() * nCollumnCell;
             pLoc.y = (int) Math.random() * nRowCell;
-            while ((map[pLoc.y][pLoc.x].getCategory() != Cell::Category::BARN) || //bukan di grassland
+            while ((map[pLoc.y][pLoc.x].getCategory() != Cell.Category.BARN) || //bukan di grassland
                 map[pLoc.y][pLoc.x].getIsOcupied()) { //ocupied, true kalo ocupied
                 pLoc.x = (int) Math.random() * nCollumnCell;
                 pLoc.y = (int) Math.random() * nRowCell;
@@ -169,17 +173,18 @@ public class World{
     * misal, input == MOVELEFT, maka akan dipanggil pl.move(LEFT). 
     * Bila input == INTERACT, maka akan dipanggil pl.interact(animalList), dsb.
     */
-    public void Input(){
+    public void Input() throws Exception{
         Scanner in = new Scanner(System.in);
         String inp = in.nextLine().toLowerCase();
+        in.close();
         if (inp == "w") {
-            pl.move(Direction::UP);		
+            pl.move(Direction.UP);		
         } else if (inp == "s") {
-            pl.move(Direction::DOWN);		
+            pl.move(Direction.DOWN);		
         } else if (inp == "a") {
-            pl.move(Direction::LEFT);
+            pl.move(Direction.LEFT);
         } else if (inp == "d") {
-            pl.move(Direction::RIGHT);
+            pl.move(Direction.RIGHT);
         } else if (inp == "talk") {
             pl.talk(animalList, mesQueue);
         } else if (inp == "grow") {
@@ -193,7 +198,7 @@ public class World{
         } else if (inp == "mix") {
             pl.mix(mesQueue);
         } else if (inp == "exit") {
-            throw "EXIT";
+            throw new Exception();
         } else if(inp == "help"){
             mesQueue.add("a,w,s,d	Move");
             mesQueue.add("interact	Interaksi dengan hewan atau benda");
@@ -219,44 +224,44 @@ public class World{
         }
     
         for (int i = 0; i < nAnimal; i++) {
-            animalList[i].tick();
-            if (animalList[i].isDead()) {
-                map[animalList[i].getPosition().y][animalList[i].getPosition().x].setIsOcupied(false);
-                animalList.removeIdx(i);
+            animalList.get(i).tick();
+            if (animalList.get(i).isDead()) {
+                map[animalList.get(i).getPosition().y][animalList.get(i).getPosition().x].setIsOcupied(false);
+                animalList.remove(i);
                 nAnimal--;
             }
         }
     
         mesQueue.add("========RECIPE=======");
-        for (int i = 0; i < pl.getrecipeBook().len(); i++) {
-            String sideProd;
-            if (pl.getrecipeBook()[i].getCategory() == Product::Category::BEEFCHICKENOMELETTE) {
+        for (int i = 0; i < pl.getrecipeBook().size(); i++) {
+            String sideProd = "";
+            if (pl.getrecipeBook().get(i).getCategory() == Product.Category.BEEFCHICKENOMELETTE) {
                     sideProd =  (i+1) + ".  *Beef Chicken Omelette*";
-            } else if (pl.getrecipeBook()[i].getCategory() == Product::Category::BEEFMUTONSATE) {
+            } else if (pl.getrecipeBook().get(i).getCategory() == Product.Category.BEEFMUTTONSATE) {
                 sideProd = ".  *Beef Muton Sate*";
-            } else if (pl.getrecipeBook()[i].getCategory() == Product::Category::SUPERSECRETSPECIALPRODUCT) {
+            } else if (pl.getrecipeBook().get(i).getCategory() == Product.Category.SUPERSECRETSPECIALPRODUCT) {
                 sideProd = ".  *Super Secret Special Product*";
             }
             mesQueue.add((i+1) + sideProd);
-            for (int j = 0; j < pl.getrecipeBook()[i].getRecipe().len(); j++){
-                String prod;
-                if (pl.getrecipeBook()[i].getRecipe()[j].getCategory() == Product::Category::CHICKENEGG) {
+            for (int j = 0; j < pl.getrecipeBook().get(i).getRecipe().size(); j++){
+                String prod = "";
+                if (pl.getrecipeBook().get(i).getRecipe().get(j).getCategory() == Product.Category.CHICKENEGG) {
                     prod = "      -Chicken Egg";
-                } else if (pl.getrecipeBook()[i].getRecipe()[j].getCategory() == Product::Category::COWMEAT) {
+                } else if (pl.getrecipeBook().get(i).getRecipe().get(j).getCategory() == Product.Category.COWMEAT) {
                     prod = "       -Cow Meat";
-                } else if (pl.getrecipeBook()[i].getRecipe()[j].getCategory() == Product::Category::BEEFCHICKENOMELETTE) {
+                } else if (pl.getrecipeBook().get(i).getRecipe().get(j).getCategory() == Product.Category.BEEFCHICKENOMELETTE) {
                     prod = "       -Beef Chicken Omelette";
-                } else if (pl.getrecipeBook()[i].getRecipe()[j].getCategory() == Product::Category::BEEFMUTONSATE) {
+                } else if (pl.getrecipeBook().get(i).getRecipe().get(j).getCategory() == Product.Category.BEEFMUTTONSATE) {
                     prod = "       -Beef Muton Sate";
-                } else if (pl.getrecipeBook()[i].getRecipe()[j].getCategory() == Product::Category::DUCKMEAT) {
+                } else if (pl.getrecipeBook().get(i).getRecipe().get(j).getCategory() == Product.Category.DUCKMEAT) {
                     prod = "       -Duck Meat";
-                } else if (pl.getrecipeBook()[i].getRecipe()[j].getCategory() == Product::Category::HORSEMILK) {
+                } else if (pl.getrecipeBook().get(i).getRecipe().get(j).getCategory() == Product.Category.HORSEMILK) {
                     prod = "       -Horse Milk";
-                } else if (pl.getrecipeBook()[i].getRecipe()[j].getCategory() == Product::Category::OSTRICHEGG) {
+                } else if (pl.getrecipeBook().get(i).getRecipe().get(j).getCategory() == Product.Category.OSTRICHEGG) {
                     prod = "       -Ostrich Egg";
-                } else if (pl.getrecipeBook()[i].getRecipe()[j].getCategory() == Product::Category::SHEEPMEAT) {
+                } else if (pl.getrecipeBook().get(i).getRecipe().get(j).getCategory() == Product.Category.SHEEPMEAT) {
                     prod = "       -Sheep Meat";
-                } else if (pl.getrecipeBook()[i].getRecipe()[j].getCategory() == Product::Category::SUPERSECRETSPECIALPRODUCT) {
+                } else if (pl.getrecipeBook().get(i).getRecipe().get(j).getCategory() == Product.Category.SUPERSECRETSPECIALPRODUCT) {
                     prod = "       -Super Secret Special Product";
                 }
                 mesQueue.add(prod);
@@ -279,29 +284,29 @@ public class World{
         char localMap[][] = new char[nRowCell][nCollumnCell];
         for (int i = 0; i < nRowCell; i++) {
             for (int j = 0; j < nCollumnCell; j++) {
-                if (map[i][j].getCategory() == Cell::Category::GRASSLAND) {
+                if (map[i][j].getCategory() == Cell.Category.GRASSLAND) {
                     if (map[i][j].isGrassExist()) {
                         localMap[i][j] = '#';
                     } else {
                         localMap[i][j] = '-';
                     }
-                } else if(map[i][j].getCategory() == Cell::Category::COOP) {
+                } else if(map[i][j].getCategory() == Cell.Category.COOP) {
                     if (map[i][j].isGrassExist()) {
                         localMap[i][j] = '*';
                     } else {
                         localMap[i][j] = 'o';
                     }
-                } else if(map[i][j].getCategory() == Cell::Category::BARN) {
+                } else if(map[i][j].getCategory() == Cell.Category.BARN) {
                     if (map[i][j].isGrassExist()) {
                         localMap[i][j] = '@';
                     } else {
                         localMap[i][j] = 'x';
                     }
-                } else if(map[i][j].getCategory() == Cell::Category::TRUCK) {
+                } else if(map[i][j].getCategory() == Cell.Category.TRUCK) {
                     localMap[i][j] = 'T';
-                } else if(map[i][j].getCategory() == Cell::Category::MIXER) {
+                } else if(map[i][j].getCategory() == Cell.Category.MIXER) {
                     localMap[i][j] = 'M';
-                } else if(map[i][j].getCategory() == Cell::Category::WELL) {
+                } else if(map[i][j].getCategory() == Cell.Category.WELL) {
                     localMap[i][j] = 'W';
                 } else {
                     localMap[i][j] = '#';
@@ -311,66 +316,65 @@ public class World{
     
         localMap[pl.getPosition().y][pl.getPosition().x] = 'P';
         for (int i = 0; i < nAnimal; i++){
-            localMap[animalList[i].getPosition().y][animalList[i].getPosition().x] = animalList[i].render();
+            localMap[animalList.get(i).getPosition().y][animalList.get(i).getPosition().x] = animalList.get(i).render();
         }
     
         int InventoryTabLength = 30;
-        drawFrame(1 + nCollumnCell*2 + InventoryTabLength + 1 + 4); printf("\n");
-        printf("#"); drawTrueSpaces(nCollumnCell*2 + 1 + 2); printf("#");
-        printf(" Inventory");drawTrueSpaces(InventoryTabLength - strlen(" Inventory"));
-        printf("#\n");
+        drawFrame(1 + nCollumnCell*2 + InventoryTabLength + 1 + 4); System.out.printf("\n");
+        System.out.printf("#"); drawTrueSpaces(nCollumnCell*2 + 1 + 2); System.out.printf("#");
+        System.out.printf(" Inventory");drawTrueSpaces(InventoryTabLength - " Inventory".length());
+        System.out.printf("#\n");
         for (int i = 0; i < nRowCell; i++) {
-            printf("#  ");
+            System.out.printf("#  ");
             for (int j = 0; j < nCollumnCell; j++) {
-                printf("%c", localMap[i][j]);
+                System.out.printf("%c", localMap[i][j]);
                 if (j != nCollumnCell - 1) {
-                    printf("|");
+                    System.out.printf("|");
                 }
             }
-            printf("  #");
+            System.out.printf("  #");
             if (i >= 0 && i < nRowCell - 2) {
-                char invObj[] = new char[30];
-                strcpy(invObj, "");
-                if ((i) < pl.getInventory().len()) {
-                    if (pl.getInventory()[i].getCategory() == Product::Category::CHICKENEGG) {
-                        strcpy(invObj, " Chicken Egg");
-                    } else if (pl.getInventory()[i].getCategory() == Product::Category::COWMEAT) {
-                        strcpy(invObj, " Cow Meat");
-                    } else if (pl.getInventory()[i].getCategory() == Product::Category::BEEFCHICKENOMELETTE) {
-                        strcpy(invObj, " Beef Chicken Omelette");
-                    } else if (pl.getInventory()[i].getCategory() == Product::Category::BEEFMUTONSATE) {
-                        strcpy(invObj, " Beef Muton Sate");
-                    } else if (pl.getInventory()[i].getCategory() == Product::Category::DUCKMEAT) {
-                        strcpy(invObj, " Duck Meat");
-                    } else if (pl.getInventory()[i].getCategory() == Product::Category::HORSEMILK) {
-                        strcpy(invObj, " Horse Milk");
-                    } else if (pl.getInventory()[i].getCategory() == Product::Category::OSTRICHEGG) {
-                        strcpy(invObj, " Ostrich Egg");
-                    } else if (pl.getInventory()[i].getCategory() == Product::Category::SHEEPMEAT) {
-                        strcpy(invObj, " Sheep Meat");
-                    } else if (pl.getInventory()[i].getCategory() == Product::Category::SUPERSECRETSPECIALPRODUCT) {
-                        strcpy(invObj, " Super Secret Special Product");
+                String invObj = "";
+                if ((i) < pl.getInventory().size()) {
+                    if (pl.getInventory().get(i).getCategory() == Product.Category.CHICKENEGG) {
+                        invObj = " Chicken Egg";
+                    } else if (pl.getInventory().get(i).getCategory() == Product.Category.COWMEAT) {
+                        invObj = " Cow Meat";
+                    } else if (pl.getInventory().get(i).getCategory() == Product.Category.BEEFCHICKENOMELETTE) {
+                        invObj = " Beef Chicken Omelette";
+                    } else if (pl.getInventory().get(i).getCategory() == Product.Category.BEEFMUTTONSATE) {
+                        invObj = " Beef Muton Sate";
+                    } else if (pl.getInventory().get(i).getCategory() == Product.Category.DUCKMEAT) {
+                        invObj = " Duck Meat";
+                    } else if (pl.getInventory().get(i).getCategory() == Product.Category.HORSEMILK) {
+                        invObj = " Horse Milk";
+                    } else if (pl.getInventory().get(i).getCategory() == Product.Category.OSTRICHEGG) {
+                        invObj = " Ostrich Egg";
+                    } else if (pl.getInventory().get(i).getCategory() == Product.Category.SHEEPMEAT) {
+                        invObj = " Sheep Meat";
+                    } else if (pl.getInventory().get(i).getCategory() == Product.Category.SUPERSECRETSPECIALPRODUCT) {
+                        invObj = " Super Secret Special Product";
                     }
                     
                 }
-                printf("%s", invObj);drawTrueSpaces(InventoryTabLength - strlen(invObj));
+                System.out.printf("%s", invObj);drawTrueSpaces(InventoryTabLength - invObj.length());
             } else if (i == nRowCell - 2) {
                 drawFrame(InventoryTabLength);
             } else if (i == nRowCell - 1) {
-                printf(" Money : %d", pl.getMoney());drawTrueSpaces(InventoryTabLength - strlen(" Money : ") - intLen(pl.getMoney()));
+                System.out.printf(" Money : %d", pl.getMoney());drawTrueSpaces(InventoryTabLength - " Money : ".length() - intLen(pl.getMoney()));
             }
     
-            printf("# ");
+            System.out.printf("# ");
             if (!mesQueue.isEmpty()) {
-                System.out.println( mesQueue[0]);
-                mesQueue.removeIdx(0);
+                System.out.println( mesQueue.get(0));
+                mesQueue.remove(0);
             }
-            printf("\n");
+            System.out.printf("\n");
         }
-        printf("#"); drawTrueSpaces(nCollumnCell*2 + 1 + 2); printf("#");
-        printf(" Water : %d", pl.getWater());drawTrueSpaces(InventoryTabLength - strlen(" Money : ") - intLen(pl.getWater()));	
-        printf("#\n");
-        drawFrame(1 + nCollumnCell*2 + InventoryTabLength + 1 + 4); printf("\n");
+        System.out.printf("#"); drawTrueSpaces(nCollumnCell*2 + 1 + 2); System.out.printf("#");
+        System.out.printf(" Water : %d", pl.getWater());drawTrueSpaces(InventoryTabLength - " Money : ".length() - intLen(pl.getWater()));	
+        System.out.printf("#\n");
+        drawFrame(1 + nCollumnCell*2 + InventoryTabLength + 1 + 4); System.out.printf("\n");
     }
 
     /** Player yang berada pada World */

@@ -1,4 +1,8 @@
 package engisfarm.farmanimal;
+import engisfarm.Point;
+import engisfarm.cell.Cell;
+import engisfarm.product.FarmProduct;
+import engisfarm.product.OstrichEgg;
 
 /** Ostrich merupakan kelas turunan dari EggProducer yang menghasilkan OstrichEgg saat diinteract */
 public class Ostrich extends EggProducer{
@@ -11,13 +15,15 @@ public class Ostrich extends EggProducer{
     }
 
     /** Mengembalikan FarmProduct yang akan dihasilkan Ostrich bila Ostrich di interact */
-    public FarmProduct produceProduct(Action act){
-        FarmProduct fp;
-        if (act == INTERACT){
-            fp = new OstrichEgg();
+    public FarmProduct produceProduct(FarmAnimal.Action act){
+        if (act == FarmAnimal.Action.INTERACT){
+            FarmProduct fp = new OstrichEgg();
             this.canProduce = false;
+            return fp;
         }
-        return fp;
+        else{
+            return null;
+        }  
     }
     
     /** Mengembalikan suara dari Ostrich */

@@ -8,5 +8,5 @@ public class Coop extends  Land {
             return category;
         }
         /** Menandakan bahwa land bertipe Coop */
-        private static final Category category = COOP;
+        private static final Category category = Cell.Category.COOP;
 }

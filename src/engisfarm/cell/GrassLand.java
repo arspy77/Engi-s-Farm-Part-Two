@@ -10,5 +10,5 @@ public class GrassLand extends Land{
     }
         
         /** Menandakan bahwa Land ini berkategori GrassLand */
-    private static final Category category = GRASSLAND;
+    private static final Category category = Cell.Category.GRASSLAND;
 }

@@ -1,4 +1,6 @@
 package engisfarm.farmanimal;
+import engisfarm.Point;
+import engisfarm.cell.Cell;
 
 /** EggProducer merupakan kelas abstrak turunan dari FarmAnimal yang tinggal di Coop dan menghasilkan Egg saat diinteract */
 public abstract class EggProducer extends FarmAnimal{
@@ -30,6 +32,6 @@ public abstract class EggProducer extends FarmAnimal{
 
     /** Mengecek apakah bisa pindah (tidak out of bound, bertipe Coop, tidak ada hewan lain) */
     protected boolean canMoveTo(Cell toWhere){
-        return (!toWhere.getIsOcupied() && (toWhere.getCategory() == COOP) ); 
+        return (!toWhere.getIsOcupied() && (toWhere.getCategory() == Cell.Category.COOP) ); 
     }
 }

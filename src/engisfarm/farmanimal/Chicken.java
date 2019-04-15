@@ -1,4 +1,8 @@
 package engisfarm.farmanimal;
+import engisfarm.Point;
+import engisfarm.cell.Cell;
+import engisfarm.product.FarmProduct;
+import engisfarm.product.ChickenEgg;
 
 /** Chicken merupakan kelas turunan dari EggProducer yang menghasilkan ChickenEgg saat diinteract */
 public class Chicken extends EggProducer{
@@ -11,13 +15,15 @@ public class Chicken extends EggProducer{
     }
 
     /** Mengembalikan FarmProduk yang akan dihasilkan Chicken bila Chicken di interact */
-    public FarmProduct produceProduct(Action act){
-        FarmProduct fp;
-        if (act == INTERACT){
-            fp = new ChickenEgg();
+    public FarmProduct produceProduct(FarmAnimal.Action act){
+        if (act == FarmAnimal.Action.INTERACT){
+            FarmProduct fp = new ChickenEgg();
             this.canProduce = false;
+            return fp;
         }
-        return fp;
+        else{
+            return null;
+        }  
     }
     
     /** Mengembalikan suara dari Chicken */

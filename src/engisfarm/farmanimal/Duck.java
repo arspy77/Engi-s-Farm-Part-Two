@@ -1,4 +1,8 @@
 package engisfarm.farmanimal;
+import engisfarm.Point;
+import engisfarm.cell.Cell;
+import engisfarm.product.FarmProduct;
+import engisfarm.product.DuckMeat;
 
 /** Duck merupakan kelas turunan dari MeatProducer yang menghasilkan DuckMeat saat diinteract */
 public class Duck extends MeatProducer{
@@ -11,12 +15,14 @@ public class Duck extends MeatProducer{
     }
 
     /** Mengembalikan FarmProduk yang akan dihasilkan Duck bila Duck di kill*/
-    public FarmProduct produceProduct(Action act){
-        FarmProduct fp;
-        if (act == KILL){
-            fp = new DuckMeat();
+    public FarmProduct produceProduct(FarmAnimal.Action act){
+        if (act == FarmAnimal.Action.KILL){
+             FarmProduct fp = new DuckMeat();
+             return fp;
         }
-        return fp;
+        else{
+            return null;
+        }  
     }
     
     /** Mengembalikan suara dari Duck */

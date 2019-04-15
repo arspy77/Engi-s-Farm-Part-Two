@@ -1,4 +1,6 @@
 package engisfarm.farmanimal;
+import engisfarm.Point;
+import engisfarm.cell.Cell;
 
 /** MilkProducer merupakan kelas abstrak turunan dari FarmAnimal yang tinggal di Coop dan menghasilkan Milk saat diinteract */
 public abstract class MilkProducer extends FarmAnimal{
@@ -30,6 +32,6 @@ public abstract class MilkProducer extends FarmAnimal{
 
     /** Mengecek apakah bisa pindah (tidak out of bound, bertipe Grassland, tidak ada hewan lain) */
     protected boolean canMoveTo(Cell toWhere){
-        return (!toWhere.getIsOcupied() && (toWhere.getCategory() == GRASSLAND) ); 
+        return (!toWhere.getIsOcupied() && (toWhere.getCategory() == Cell.Category.GRASSLAND) ); 
     }
 }

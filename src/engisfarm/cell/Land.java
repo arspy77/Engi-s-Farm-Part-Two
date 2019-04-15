@@ -1,7 +1,7 @@
 package engisfarm.cell;
 
 /** Land merupakan kelas turunan dari Cell yang merepresentasikan petak-petak yang bisa ditempati oleh LivingThing */
-public class Land extends Cell { 
+public abstract class Land extends Cell { 
         /** Return true bila Land adalah sebuah facility */
         public boolean isFacility()
         {
@@ -27,7 +27,7 @@ public class Land extends Cell {
         }
 
         /** Mengembalikan keberadaan grass */
-        public bool isGrassExist()
+        public boolean isGrassExist()
         {
             return existGrass;
         }

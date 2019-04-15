@@ -1,5 +1,12 @@
 package engisfarm;
 
+import engisfarm.cell.Cell;
+import engisfarm.farmanimal.FarmAnimal;
+import engisfarm.product.Product;
+import engisfarm.product.SideProduct;
+import engisfarm.product.BeefChickenOmelette;
+import engisfarm.product.BeefMuttonSate;
+import engisfarm.product.SuperSecretSpecialProduct;
 import java.util.*;
 
 public class Player extends LivingThing {
@@ -90,6 +97,7 @@ public class Player extends LivingThing {
             System.out.println("Which recipe are you going to make?");
             Scanner scan = new Scanner(System.in);
             choice = scan.nextInt();
+            scan.close();
             if (choice > 0 && choice <= recipeBook.size()) { //dari 1 sampai 3
                 boolean allExist = true;
                 for (int i = 0; i < recipeBook.get(choice - 1).getRecipe().size() && allExist; i++) {
@@ -104,7 +112,7 @@ public class Player extends LivingThing {
                     }
                     if (recipeBook.get(choice - 1).getCategory() == Product.Category.BEEFCHICKENOMELETTE) {
                         inventory.add(new BeefChickenOmelette());
-                    } else if (recipeBook.get(choice - 1).getCategory() == Product.Category.BEEFMUTONSATE) {
+                    } else if (recipeBook.get(choice - 1).getCategory() == Product.Category.BEEFMUTTONSATE) {
                         inventory.add(new BeefMuttonSate());
                     } else if (recipeBook.get(choice - 1).getCategory() == Product.Category.SUPERSECRETSPECIALPRODUCT) {
                         inventory.add(new SuperSecretSpecialProduct());
