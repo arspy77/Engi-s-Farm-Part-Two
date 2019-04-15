@@ -12,6 +12,9 @@ public class World{
     /** Object Random agar setiap playthrough berbeda */
     private Random rand = new Random();
 
+    /** Objext Scanner untuk menerima input dari user */
+    private Scanner in = new Scanner(System.in);
+
     private void drawTrueSpaces(int n) {
         while(n > 0) {
             System.out.printf(" ");
@@ -51,9 +54,7 @@ public class World{
     */ 
     public World(){
         System.out.println( "NRow NCol? ");
-        Scanner in = new Scanner(System.in);
         String[] input = in.nextLine().split(" ");
-        in.close();
         nRowCell = Integer.parseInt(input[0]);
         nCollumnCell =  Integer.parseInt(input[1]);
         map = new Cell[nRowCell][nCollumnCell];
@@ -83,26 +84,20 @@ public class World{
     
         nAnimal = 0;
         //Horse
-        System.out.println("start");
         for (int i = 0; i < (nRowCell+nCollumnCell)*15/40; i++) {
             pLoc.x = rand.nextInt(nCollumnCell);
-            System.out.println(pLoc.x);
             pLoc.y = rand.nextInt(nRowCell);
-            System.out.println(pLoc.y);
             while ((map[pLoc.y][pLoc.x].getCategory() != Cell.Category.GRASSLAND) || //bukan di grassland
                 map[pLoc.y][pLoc.x].getIsOcupied()) { //ocupied, true kalo ocupied
                 pLoc.x = rand.nextInt(nCollumnCell);
-                System.out.println(pLoc.x);
                 pLoc.y = rand.nextInt(nRowCell);
-                System.out.println(pLoc.y);
             }
             animalList.add(new Horse(pLoc, map, nRowCell, nCollumnCell));
             nAnimal++;
             map[pLoc.y][pLoc.x].setIsOcupied(true);
         }
-        System.out.println("horse");
-        //Chicken
 
+        //Chicken
         for (int i = 0; i < (nRowCell+nCollumnCell)*5/40; i++) {
             pLoc.x = rand.nextInt(nCollumnCell);
             pLoc.y = rand.nextInt(nRowCell);
@@ -116,7 +111,6 @@ public class World{
             map[pLoc.y][pLoc.x].setIsOcupied(true);
         }
     
-        System.out.println("chicken");
         //Cow
         for (int i = 0; i < (nRowCell+nCollumnCell)*5/40; i++) {
             pLoc.x = rand.nextInt(nCollumnCell);
@@ -131,7 +125,6 @@ public class World{
             map[pLoc.y][pLoc.x].setIsOcupied(true);
         }
         
-        System.out.println("Cow");
         //Duck
         for (int i = 0; i < (nRowCell+nCollumnCell)*5/40; i++) {
             pLoc.x = rand.nextInt(nCollumnCell);
@@ -146,7 +139,6 @@ public class World{
             map[pLoc.y][pLoc.x].setIsOcupied(true);
         }
         
-        System.out.println("Duck");
         //Ostrich
         for (int i = 0; i < (nRowCell+nCollumnCell)*5/40; i++) {
             pLoc.x = rand.nextInt(nCollumnCell);
@@ -161,7 +153,6 @@ public class World{
             map[pLoc.y][pLoc.x].setIsOcupied(true);
         }
         
-        System.out.println("Ostrich");
         //Sheep
         for (int i = 0; i < (nRowCell+nCollumnCell)*5/40; i++) {
             pLoc.x = rand.nextInt(nCollumnCell);
@@ -175,7 +166,6 @@ public class World{
             nAnimal++;
             map[pLoc.y][pLoc.x].setIsOcupied(true);
         }
-        System.out.println("Sheep");
     }
 
     /**
@@ -184,9 +174,7 @@ public class World{
     * Bila input == INTERACT, maka akan dipanggil pl.interact(animalList), dsb.
     */
     public void Input() throws Exception{
-        Scanner in = new Scanner(System.in);
         String inp = in.nextLine().toLowerCase();
-        in.close();
         if (inp == "w") {
             pl.move(Direction.UP);		
         } else if (inp == "s") {
@@ -206,9 +194,10 @@ public class World{
             pl.takeWater();
             pl.sellAll();
         } else if (inp == "mix") {
-            pl.mix(mesQueue);
+            pl.mix(mesQueue, in);
         } else if (inp == "exit") {
-            throw new Exception();
+            in.close();
+            throw new Exception();            
         } else if(inp == "help"){
             mesQueue.add("a,w,s,d	Move");
             mesQueue.add("interact	Interaksi dengan hewan atau benda");
@@ -403,10 +392,10 @@ public class World{
     private int nAnimal;
 
     /** LinkedList dari seluruh pointer ke FarmAnimal yang berada pada World 000*/
-    private LinkedList<FarmAnimal> animalList;
+    private LinkedList<FarmAnimal> animalList = new LinkedList<FarmAnimal>();
 
     /** 
     * Antrian pesan yang akan ditampilkan saat render 
     */
-    private LinkedList<String> mesQueue;
+    private LinkedList<String> mesQueue = new LinkedList<String>();
 }

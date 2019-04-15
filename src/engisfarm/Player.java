@@ -88,16 +88,14 @@ public class Player extends LivingThing {
     }
 
     /** Menciptakan SideProduct dari FarmProduct bila Player dekat dengan mixer */
-    public void mix(LinkedList<String> mesQueue) {
+    public void mix(LinkedList<String> mesQueue, Scanner in) {
         int choice = -1;
         if (((getPosition().y + 1 >= 0 && getPosition().y + 1 < nRowCell && getPosition().x >= 0 && getPosition().x < nCollumnCell) && worldMap[getPosition().y + 1][getPosition().x].getCategory() == Cell.Category.MIXER) ||
             ((getPosition().y >= 0 && getPosition().y < nRowCell && getPosition().x + 1 >= 0 && getPosition().x + 1 < nCollumnCell) && worldMap[getPosition().y][getPosition().x + 1].getCategory() == Cell.Category.MIXER) ||
             ((getPosition().y - 1 >= 0 && getPosition().y - 1 < nRowCell && getPosition().x >= 0 && getPosition().x < nCollumnCell) && worldMap[getPosition().y - 1][getPosition().x].getCategory() == Cell.Category.MIXER) ||
             ((getPosition().y >= 0 && getPosition().y < nRowCell && getPosition().x - 1 >= 0 && getPosition().x - 1 < nCollumnCell) && worldMap[getPosition().y][getPosition().x - 1].getCategory() == Cell.Category.MIXER)) {
             System.out.println("Which recipe are you going to make?");
-            Scanner scan = new Scanner(System.in);
-            choice = scan.nextInt();
-            scan.close();
+            choice = Integer.parseInt(in.nextLine());
             if (choice > 0 && choice <= recipeBook.size()) { //dari 1 sampai 3
                 boolean allExist = true;
                 for (int i = 0; i < recipeBook.get(choice - 1).getRecipe().size() && allExist; i++) {

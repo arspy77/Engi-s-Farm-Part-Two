@@ -25,7 +25,7 @@ public class Main{
                 W.Input();
                 W.Update();
             } catch (Exception exp) {
-                    break;
+                break;
             }
         }
     }
