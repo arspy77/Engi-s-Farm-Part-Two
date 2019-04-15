@@ -4,6 +4,7 @@ import engisfarm.Point;
 import engisfarm.Direction;
 import engisfarm.cell.Cell;
 import engisfarm.product.FarmProduct;
+import java.util.Random;
 
 /** 
  * Kelas FarmAnimal merupakan kelas turunan dari living thing yang dapat berupa
@@ -14,6 +15,9 @@ public abstract class FarmAnimal extends LivingThing{
     public enum Action {
         INTERACT, KILL
     }
+
+    /** Object Random agar setiap playthrough berbeda */
+    private Random rand = new Random();
 
     /** Waktu FarmAnimal sampai menjadi lapar */
     protected int timeToGetHungry;
@@ -103,7 +107,7 @@ public abstract class FarmAnimal extends LivingThing{
         } //nearestPoint Found
         Direction d = Direction.UP;
         if (nearestPoint.x == -1) {
-            int randomInt = (int) Math.random() * 4;
+            int randomInt = rand.nextInt(4);
             switch(randomInt){
                 case 0:
                     d = Direction.LEFT;

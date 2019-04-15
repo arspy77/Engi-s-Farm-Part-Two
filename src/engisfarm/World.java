@@ -5,9 +5,13 @@ import engisfarm.farmanimal.*;
 import engisfarm.product.*;
 import java.util.Scanner;
 import java.util.LinkedList;
+import java.util.Random;
 
 /** World adalah kelas yang merepresentasikan dunia yang menyimpan semua Cell dan LivingThing di dalamnya */
 public class World{
+    /** Object Random agar setiap playthrough berbeda */
+    private Random rand = new Random();
+
     private void drawTrueSpaces(int n) {
         while(n > 0) {
             System.out.printf(" ");
@@ -52,10 +56,7 @@ public class World{
         in.close();
         nRowCell = Integer.parseInt(input[0]);
         nCollumnCell =  Integer.parseInt(input[1]);
-        map = new Cell[nRowCell][];
-        for (int i = 0; i < nRowCell; i++) {
-            map[i] = new Cell[nCollumnCell];
-        }
+        map = new Cell[nRowCell][nCollumnCell];
         for (int i = 0; i < nRowCell; i++) {
             for (int j = 0; j < nCollumnCell; j++) {
                 map[i][j] = new GrassLand();
@@ -74,98 +75,107 @@ public class World{
         map[0][nCollumnCell - 1] = new Truck();
         map[1][nCollumnCell - 1] = new Mixer();
         map[3][nCollumnCell - 1] = new Well();
-    
         Point pLoc = new Point();
         pLoc.x = nCollumnCell / 2;
         pLoc.y = nRowCell / 2;
         pl = new Player(pLoc, map, nRowCell, nCollumnCell);
         map[pl.getPosition().y][pl.getPosition().x].setIsOcupied(true);
     
-        // srand(time(nullptr));
         nAnimal = 0;
         //Horse
+        System.out.println("start");
         for (int i = 0; i < (nRowCell+nCollumnCell)*15/40; i++) {
-            pLoc.x = (int) Math.random() * nCollumnCell;
-            pLoc.y = (int) Math.random() * nRowCell;
+            pLoc.x = rand.nextInt(nCollumnCell);
+            System.out.println(pLoc.x);
+            pLoc.y = rand.nextInt(nRowCell);
+            System.out.println(pLoc.y);
             while ((map[pLoc.y][pLoc.x].getCategory() != Cell.Category.GRASSLAND) || //bukan di grassland
                 map[pLoc.y][pLoc.x].getIsOcupied()) { //ocupied, true kalo ocupied
-                pLoc.x = (int) Math.random() * nCollumnCell;
-                pLoc.y = (int) Math.random() * nRowCell;
+                pLoc.x = rand.nextInt(nCollumnCell);
+                System.out.println(pLoc.x);
+                pLoc.y = rand.nextInt(nRowCell);
+                System.out.println(pLoc.y);
             }
             animalList.add(new Horse(pLoc, map, nRowCell, nCollumnCell));
             nAnimal++;
             map[pLoc.y][pLoc.x].setIsOcupied(true);
         }
-    
+        System.out.println("horse");
         //Chicken
+
         for (int i = 0; i < (nRowCell+nCollumnCell)*5/40; i++) {
-            pLoc.x = (int) Math.random() * nCollumnCell;
-            pLoc.y = (int) Math.random() * nRowCell;
+            pLoc.x = rand.nextInt(nCollumnCell);
+            pLoc.y = rand.nextInt(nRowCell);
             while ((map[pLoc.y][pLoc.x].getCategory() != Cell.Category.COOP) || //bukan di grassland
                 map[pLoc.y][pLoc.x].getIsOcupied()) { //ocupied, true kalo ocupied
-                pLoc.x = (int) Math.random() * nCollumnCell;
-                pLoc.y = (int) Math.random() * nRowCell;
+                pLoc.x = rand.nextInt(nCollumnCell);
+                pLoc.y = rand.nextInt(nRowCell);
             }
             animalList.add(new Chicken(pLoc, map, nRowCell, nCollumnCell));
             nAnimal++;
             map[pLoc.y][pLoc.x].setIsOcupied(true);
         }
     
+        System.out.println("chicken");
         //Cow
         for (int i = 0; i < (nRowCell+nCollumnCell)*5/40; i++) {
-            pLoc.x = (int) Math.random() * nCollumnCell;
-            pLoc.y = (int) Math.random() * nRowCell;
+            pLoc.x = rand.nextInt(nCollumnCell);
+            pLoc.y = rand.nextInt(nRowCell);
             while ((map[pLoc.y][pLoc.x].getCategory() != Cell.Category.BARN) || //bukan di grassland
                 map[pLoc.y][pLoc.x].getIsOcupied()) { //ocupied, true kalo ocupied
-                pLoc.x = (int) Math.random() * nCollumnCell;
-                pLoc.y = (int) Math.random() * nRowCell;
+                pLoc.x = rand.nextInt(nCollumnCell);
+                pLoc.y = rand.nextInt(nRowCell);
             }
             animalList.add(new Cow(pLoc, map, nRowCell, nCollumnCell));
             nAnimal++;
             map[pLoc.y][pLoc.x].setIsOcupied(true);
         }
-    
+        
+        System.out.println("Cow");
         //Duck
         for (int i = 0; i < (nRowCell+nCollumnCell)*5/40; i++) {
-            pLoc.x = (int) Math.random() * nCollumnCell;
-            pLoc.y = (int) Math.random() * nRowCell;
+            pLoc.x = rand.nextInt(nCollumnCell);
+            pLoc.y = rand.nextInt(nRowCell);
             while ((map[pLoc.y][pLoc.x].getCategory() != Cell.Category.BARN) || //bukan di grassland
                 map[pLoc.y][pLoc.x].getIsOcupied()) { //ocupied, true kalo ocupied
-                pLoc.x = (int) Math.random() * nCollumnCell;
-                pLoc.y = (int) Math.random() * nRowCell;
+                pLoc.x = rand.nextInt(nCollumnCell);
+                pLoc.y = rand.nextInt(nRowCell);
             }
             animalList.add(new Duck(pLoc, map, nRowCell, nCollumnCell));
             nAnimal++;
             map[pLoc.y][pLoc.x].setIsOcupied(true);
         }
-    
+        
+        System.out.println("Duck");
         //Ostrich
         for (int i = 0; i < (nRowCell+nCollumnCell)*5/40; i++) {
-            pLoc.x = (int) Math.random() * nCollumnCell;
-            pLoc.y = (int) Math.random() * nRowCell;
+            pLoc.x = rand.nextInt(nCollumnCell);
+            pLoc.y = rand.nextInt(nRowCell);
             while ((map[pLoc.y][pLoc.x].getCategory() != Cell.Category.COOP) || //bukan di grassland
                 map[pLoc.y][pLoc.x].getIsOcupied()) { //ocupied, true kalo ocupied
-                pLoc.x = (int) Math.random() * nCollumnCell;
-                pLoc.y = (int) Math.random() * nRowCell;
+                pLoc.x = rand.nextInt(nCollumnCell);
+                pLoc.y = rand.nextInt(nRowCell);
             }
             animalList.add(new Ostrich(pLoc, map, nRowCell, nCollumnCell));
             nAnimal++;
             map[pLoc.y][pLoc.x].setIsOcupied(true);
         }
-    
+        
+        System.out.println("Ostrich");
         //Sheep
         for (int i = 0; i < (nRowCell+nCollumnCell)*5/40; i++) {
-            pLoc.x = (int) Math.random() * nCollumnCell;
-            pLoc.y = (int) Math.random() * nRowCell;
+            pLoc.x = rand.nextInt(nCollumnCell);
+            pLoc.y = rand.nextInt(nRowCell);
             while ((map[pLoc.y][pLoc.x].getCategory() != Cell.Category.BARN) || //bukan di grassland
                 map[pLoc.y][pLoc.x].getIsOcupied()) { //ocupied, true kalo ocupied
-                pLoc.x = (int) Math.random() * nCollumnCell;
-                pLoc.y = (int) Math.random() * nRowCell;
+                pLoc.x = rand.nextInt(nCollumnCell);
+                pLoc.y = rand.nextInt(nRowCell);
             }
             animalList.add(new Sheep(pLoc, map, nRowCell, nCollumnCell));
             nAnimal++;
             map[pLoc.y][pLoc.x].setIsOcupied(true);
         }
+        System.out.println("Sheep");
     }
 
     /**
@@ -217,9 +227,9 @@ public class World{
     */
     public void Update(){
         int x, y;
-        for (int i = 0; i < (int) Math.random() * (nRowCell+nCollumnCell)*20/40; i++) {
-            x = (int) Math.random() * nCollumnCell;
-            y = (int) Math.random() * nRowCell;
+        for (int i = 0; i < rand.nextInt((int)(nRowCell+nCollumnCell)*20/40); i++) {
+            x = rand.nextInt(nCollumnCell);
+            y = rand.nextInt(nRowCell);
             map[y][x].growGrass();
         }
     
