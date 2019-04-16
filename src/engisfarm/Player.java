@@ -32,6 +32,9 @@ public class Player extends LivingThing {
         money = 0;
         water = 5;
         recipeBook = new LinkedList<SideProduct>();
+        recipeBook.add(new BeefChickenOmelette());
+        recipeBook.add(new BeefMuttonSate());
+        recipeBook.add(new SuperSecretSpecialProduct());
         inventory = new LinkedList<Product>();
     }
 
@@ -64,14 +67,13 @@ public class Player extends LivingThing {
      * Bekerja untuk FarmAnimal jenis MeatProducing.
      * Contoh FarmProduct : CowMeat, ChickenMeat.
      */
-    public void kill(LinkedList<FarmAnimal> farmAnimal, int nAnimal) {
-        for(int i = 0; i < farmAnimal.size(); i++) {
+    public void kill(LinkedList<FarmAnimal> farmAnimal) {
+        for(int i = farmAnimal.size() - 1; i >= 0; i--) {
             if(adjPosition(getPosition(), farmAnimal.get(i).getPosition())) {
                 if(farmAnimal.get(i).getKillable()) {
                     inventory.add(farmAnimal.get(i).produceProduct(FarmAnimal.Action.KILL));
                     worldMap[farmAnimal.get(i).getPosition().y][farmAnimal.get(i).getPosition().x].setIsOcupied(false);
                     farmAnimal.remove(i);
-                    nAnimal--;
                 }
             }
         }

@@ -4,8 +4,12 @@ import engisfarm.cell.*;
 import engisfarm.farmanimal.*;
 import engisfarm.product.*;
 import java.util.Scanner;
+import java.io.BufferedWriter;
 import java.util.LinkedList;
 import java.util.Random;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 
 /** World adalah kelas yang merepresentasikan dunia yang menyimpan semua Cell dan LivingThing di dalamnya */
 public class World{
@@ -15,16 +19,19 @@ public class World{
     /** Objext Scanner untuk menerima input dari user */
     private Scanner in = new Scanner(System.in);
 
-    private void drawTrueSpaces(int n) {
+    /** Object BufferedWriter agar otput ke terminal lebih cepat */
+    private BufferedWriter log;
+
+    private void drawTrueSpaces(int n)  throws IOException{
         while(n > 0) {
-            System.out.printf(" ");
+            log.write(" ");
             n--;
         }
     }
     
-    private void drawFrame(int n) {
+    private void drawFrame(int n)  throws IOException{
         while(n > 0) {
-            System.out.printf("#");
+            log.write("#");
             n--;
         }
     }
@@ -52,7 +59,13 @@ public class World{
     * didefinisikan pada tahap pertama
     * Terakhir, animalList diinisialisasi dengan beberapa FarmAnimal secara random
     */ 
-    public World(){
+    public World(BufferedWriter log){
+        //inisialisasi buffered writer
+        this.log = log;
+
+        // Inisialisasi LinkedList
+        mesQueue = new LinkedList<String>();
+        animalList = new LinkedList<FarmAnimal>();
         System.out.println( "NRow NCol? ");
         String[] input = in.nextLine().split(" ");
         nRowCell = Integer.parseInt(input[0]);
@@ -82,9 +95,9 @@ public class World{
         pl = new Player(pLoc, map, nRowCell, nCollumnCell);
         map[pl.getPosition().y][pl.getPosition().x].setIsOcupied(true);
     
-        nAnimal = 0;
         //Horse
         for (int i = 0; i < (nRowCell+nCollumnCell)*15/40; i++) {
+            pLoc = new Point();
             pLoc.x = rand.nextInt(nCollumnCell);
             pLoc.y = rand.nextInt(nRowCell);
             while ((map[pLoc.y][pLoc.x].getCategory() != Cell.Category.GRASSLAND) || //bukan di grassland
@@ -93,12 +106,12 @@ public class World{
                 pLoc.y = rand.nextInt(nRowCell);
             }
             animalList.add(new Horse(pLoc, map, nRowCell, nCollumnCell));
-            nAnimal++;
             map[pLoc.y][pLoc.x].setIsOcupied(true);
         }
 
         //Chicken
         for (int i = 0; i < (nRowCell+nCollumnCell)*5/40; i++) {
+            pLoc = new Point();
             pLoc.x = rand.nextInt(nCollumnCell);
             pLoc.y = rand.nextInt(nRowCell);
             while ((map[pLoc.y][pLoc.x].getCategory() != Cell.Category.COOP) || //bukan di grassland
@@ -107,12 +120,12 @@ public class World{
                 pLoc.y = rand.nextInt(nRowCell);
             }
             animalList.add(new Chicken(pLoc, map, nRowCell, nCollumnCell));
-            nAnimal++;
             map[pLoc.y][pLoc.x].setIsOcupied(true);
         }
     
         //Cow
         for (int i = 0; i < (nRowCell+nCollumnCell)*5/40; i++) {
+            pLoc = new Point();
             pLoc.x = rand.nextInt(nCollumnCell);
             pLoc.y = rand.nextInt(nRowCell);
             while ((map[pLoc.y][pLoc.x].getCategory() != Cell.Category.BARN) || //bukan di grassland
@@ -121,12 +134,12 @@ public class World{
                 pLoc.y = rand.nextInt(nRowCell);
             }
             animalList.add(new Cow(pLoc, map, nRowCell, nCollumnCell));
-            nAnimal++;
             map[pLoc.y][pLoc.x].setIsOcupied(true);
         }
         
         //Duck
         for (int i = 0; i < (nRowCell+nCollumnCell)*5/40; i++) {
+            pLoc = new Point();
             pLoc.x = rand.nextInt(nCollumnCell);
             pLoc.y = rand.nextInt(nRowCell);
             while ((map[pLoc.y][pLoc.x].getCategory() != Cell.Category.BARN) || //bukan di grassland
@@ -135,12 +148,12 @@ public class World{
                 pLoc.y = rand.nextInt(nRowCell);
             }
             animalList.add(new Duck(pLoc, map, nRowCell, nCollumnCell));
-            nAnimal++;
             map[pLoc.y][pLoc.x].setIsOcupied(true);
         }
         
         //Ostrich
         for (int i = 0; i < (nRowCell+nCollumnCell)*5/40; i++) {
+            pLoc = new Point();
             pLoc.x = rand.nextInt(nCollumnCell);
             pLoc.y = rand.nextInt(nRowCell);
             while ((map[pLoc.y][pLoc.x].getCategory() != Cell.Category.COOP) || //bukan di grassland
@@ -149,12 +162,12 @@ public class World{
                 pLoc.y = rand.nextInt(nRowCell);
             }
             animalList.add(new Ostrich(pLoc, map, nRowCell, nCollumnCell));
-            nAnimal++;
             map[pLoc.y][pLoc.x].setIsOcupied(true);
         }
         
         //Sheep
         for (int i = 0; i < (nRowCell+nCollumnCell)*5/40; i++) {
+            pLoc = new Point();
             pLoc.x = rand.nextInt(nCollumnCell);
             pLoc.y = rand.nextInt(nRowCell);
             while ((map[pLoc.y][pLoc.x].getCategory() != Cell.Category.BARN) || //bukan di grassland
@@ -163,7 +176,6 @@ public class World{
                 pLoc.y = rand.nextInt(nRowCell);
             }
             animalList.add(new Sheep(pLoc, map, nRowCell, nCollumnCell));
-            nAnimal++;
             map[pLoc.y][pLoc.x].setIsOcupied(true);
         }
     }
@@ -175,30 +187,30 @@ public class World{
     */
     public void Input() throws Exception{
         String inp = in.nextLine().toLowerCase();
-        if (inp == "w") {
+        if (inp.equals("w")) {
             pl.move(Direction.UP);		
-        } else if (inp == "s") {
+        } else if (inp.equals("s")) {
             pl.move(Direction.DOWN);		
-        } else if (inp == "a") {
+        } else if (inp.equals("a")) {
             pl.move(Direction.LEFT);
-        } else if (inp == "d") {
+        } else if (inp.equals("d")) {
             pl.move(Direction.RIGHT);
-        } else if (inp == "talk") {
+        } else if (inp.equals("talk")) {
             pl.talk(animalList, mesQueue);
-        } else if (inp == "grow") {
+        } else if (inp.equals("grow")) {
             pl.grow(mesQueue);
-        } else if (inp == "kill") {
-            pl.kill(animalList,nAnimal);
-        } else if (inp == "interact") {
+        } else if (inp.equals("kill")) {
+            pl.kill(animalList);
+        } else if (inp.equals("interact")) {
             pl.interact(animalList);
             pl.takeWater();
             pl.sellAll();
-        } else if (inp == "mix") {
+        } else if (inp.equals("mix")) {
             pl.mix(mesQueue, in);
-        } else if (inp == "exit") {
+        } else if (inp.equals("exit")) {
             in.close();
             throw new Exception();            
-        } else if(inp == "help"){
+        } else if (inp.equals("")){
             mesQueue.add("a,w,s,d	Move");
             mesQueue.add("interact	Interaksi dengan hewan atau benda");
             mesQueue.add("mix		Membuat side product pada mixer");
@@ -222,12 +234,11 @@ public class World{
             map[y][x].growGrass();
         }
     
-        for (int i = 0; i < nAnimal; i++) {
+        for (int i = animalList.size() - 1; i >= 0; i--) {
             animalList.get(i).tick();
             if (animalList.get(i).isDead()) {
                 map[animalList.get(i).getPosition().y][animalList.get(i).getPosition().x].setIsOcupied(false);
                 animalList.remove(i);
-                nAnimal--;
             }
         }
     
@@ -235,7 +246,7 @@ public class World{
         for (int i = 0; i < pl.getrecipeBook().size(); i++) {
             String sideProd = "";
             if (pl.getrecipeBook().get(i).getCategory() == Product.Category.BEEFCHICKENOMELETTE) {
-                    sideProd =  (i+1) + ".  *Beef Chicken Omelette*";
+                    sideProd = ".  *Beef Chicken Omelette*";
             } else if (pl.getrecipeBook().get(i).getCategory() == Product.Category.BEEFMUTTONSATE) {
                 sideProd = ".  *Beef Muton Sate*";
             } else if (pl.getrecipeBook().get(i).getCategory() == Product.Category.SUPERSECRETSPECIALPRODUCT) {
@@ -279,8 +290,8 @@ public class World{
     * Megambarkar representasi state program (World) seperti lokasi setiap objek, money, water, 
     * dan Inventory Player, dsb ke layar.
     */
-    public void Draw(){
-        char localMap[][] = new char[nRowCell][nCollumnCell];
+    public void Draw() throws IOException{
+        char[][] localMap = new char[nRowCell][nCollumnCell];
         for (int i = 0; i < nRowCell; i++) {
             for (int j = 0; j < nCollumnCell; j++) {
                 if (map[i][j].getCategory() == Cell.Category.GRASSLAND) {
@@ -314,24 +325,24 @@ public class World{
         }
     
         localMap[pl.getPosition().y][pl.getPosition().x] = 'P';
-        for (int i = 0; i < nAnimal; i++){
+        for (int i = 0; i < animalList.size(); i++){
             localMap[animalList.get(i).getPosition().y][animalList.get(i).getPosition().x] = animalList.get(i).render();
         }
-    
+
         int InventoryTabLength = 30;
-        drawFrame(1 + nCollumnCell*2 + InventoryTabLength + 1 + 4); System.out.printf("\n");
-        System.out.printf("#"); drawTrueSpaces(nCollumnCell*2 + 1 + 2); System.out.printf("#");
-        System.out.printf(" Inventory");drawTrueSpaces(InventoryTabLength - " Inventory".length());
-        System.out.printf("#\n");
+        drawFrame(1 + nCollumnCell*2 + InventoryTabLength + 1 + 4); log.write("\n");
+        log.write("#"); drawTrueSpaces(nCollumnCell*2 + 1 + 2); log.write("#");
+        log.write(" Inventory");drawTrueSpaces(InventoryTabLength - " Inventory".length());
+        log.write("#\n");
         for (int i = 0; i < nRowCell; i++) {
-            System.out.printf("#  ");
+            log.write("#  ");
             for (int j = 0; j < nCollumnCell; j++) {
-                System.out.printf("%c", localMap[i][j]);
+                log.write(localMap[i][j]);
                 if (j != nCollumnCell - 1) {
-                    System.out.printf("|");
+                    log.write("|");
                 }
             }
-            System.out.printf("  #");
+            log.write("  #");
             if (i >= 0 && i < nRowCell - 2) {
                 String invObj = "";
                 if ((i) < pl.getInventory().size()) {
@@ -356,24 +367,24 @@ public class World{
                     }
                     
                 }
-                System.out.printf("%s", invObj);drawTrueSpaces(InventoryTabLength - invObj.length());
+                log.write(invObj);drawTrueSpaces(InventoryTabLength - invObj.length());
             } else if (i == nRowCell - 2) {
                 drawFrame(InventoryTabLength);
             } else if (i == nRowCell - 1) {
-                System.out.printf(" Money : %d", pl.getMoney());drawTrueSpaces(InventoryTabLength - " Money : ".length() - intLen(pl.getMoney()));
+                log.write(" Money : " + pl.getMoney());drawTrueSpaces(InventoryTabLength - " Money : ".length() - intLen(pl.getMoney()));
             }
     
-            System.out.printf("# ");
+            log.write("# ");
             if (!mesQueue.isEmpty()) {
-                System.out.println( mesQueue.get(0));
-                mesQueue.remove(0);
+                log.write(mesQueue.remove(0));
             }
-            System.out.printf("\n");
+            log.write("\n");
         }
-        System.out.printf("#"); drawTrueSpaces(nCollumnCell*2 + 1 + 2); System.out.printf("#");
-        System.out.printf(" Water : %d", pl.getWater());drawTrueSpaces(InventoryTabLength - " Money : ".length() - intLen(pl.getWater()));	
-        System.out.printf("#\n");
-        drawFrame(1 + nCollumnCell*2 + InventoryTabLength + 1 + 4); System.out.printf("\n");
+        log.write("#"); drawTrueSpaces(nCollumnCell*2 + 1 + 2); log.write("#");
+        log.write(" Water : " + pl.getWater());drawTrueSpaces(InventoryTabLength - " Money : ".length() - intLen(pl.getWater()));	
+        log.write("#\n");
+        drawFrame(1 + nCollumnCell*2 + InventoryTabLength + 1 + 4); log.write("\n");
+        log.flush();
     }
 
     /** Player yang berada pada World */
@@ -388,14 +399,11 @@ public class World{
     /** Nilai efektif kolom untuk Matriks Cell */
     private int nCollumnCell;
 
-    /** Banyaknya Animal yang hidup */
-    private int nAnimal;
-
     /** LinkedList dari seluruh pointer ke FarmAnimal yang berada pada World 000*/
-    private LinkedList<FarmAnimal> animalList = new LinkedList<FarmAnimal>();
+    private LinkedList<FarmAnimal> animalList;
 
     /** 
     * Antrian pesan yang akan ditampilkan saat render 
     */
-    private LinkedList<String> mesQueue = new LinkedList<String>();
+    private LinkedList<String> mesQueue;
 }
