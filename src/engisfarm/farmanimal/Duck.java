@@ -3,6 +3,9 @@ import engisfarm.Point;
 import engisfarm.cell.Cell;
 import engisfarm.product.FarmProduct;
 import engisfarm.product.DuckMeat;
+import engisfarm.Matrix;
+import java.awt.Image;
+import javax.swing.ImageIcon;
 
 /** Duck merupakan kelas turunan dari MeatProducer yang menghasilkan DuckMeat saat diinteract */
 public class Duck extends MeatProducer{
@@ -10,7 +13,7 @@ public class Duck extends MeatProducer{
      private static final int maxTimeToGetHungryDuck = 15;
      
     /** Constructor */
-    public Duck(Point position, Cell[][] worldMap, int nRowCell, int nCollumnCell){
+    public Duck(Point position, Matrix<Cell> worldMap, int nRowCell, int nCollumnCell){
         super(maxTimeToGetHungryDuck, position, worldMap, nRowCell, nCollumnCell);
     }
 
@@ -30,12 +33,15 @@ public class Duck extends MeatProducer{
         return "ga~ ga~";
     }
 
-    /** Mengembalikan karakter yang merepresentasikan Duck saat Hungry dan tidak Hungry */
-    public char render(){
-        if (this.isHungry()) {
-            return 'd';
-        } else {
-            return 'D';
+    /** Mengembalikan Image yang merepresentasikan Duck saat Hungry dan tidak Hungry */
+    public Image render() {
+        ImageIcon icon;
+        if (isHungry()){
+            icon = new ImageIcon("../resources/duckHungry.png");
         }
+        else{
+            icon = new ImageIcon("../resources/duck.png");
+        }
+        return icon.getImage();
     }
 }

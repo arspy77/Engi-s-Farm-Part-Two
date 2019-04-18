@@ -3,12 +3,12 @@ package engisfarm.product;
 import java.util.LinkedList;
 
 
-/** SuperSecretSpecialProduct adalah kelas turunan dari SideProduct yang dihasilkan dengan mix HorseMilk dan OstrichEgg */
-public class SuperSecretSpecialProduct extends SideProduct {
+/** SuperSecretSpecialProduct adalah kelas turunan dari SideProduct yang dihasilkan dengan mix HorseMilk dan OwlEgg */
+public class SuperSecretSpecialProduct implements SideProduct {
     
     /**
     *  Resep SuperSecretSpecialProduct.
-    *  Terdiri dari OstrichEgg dan HorseMilk.
+    *  Terdiri dari OwlEgg dan HorseMilk.
     */
     private static LinkedList<Product> recipe;
 
@@ -16,7 +16,7 @@ public class SuperSecretSpecialProduct extends SideProduct {
     /** Menginisialisasi recipe */
     static {
         recipe = new LinkedList<Product>();
-        recipe.add(new OstrichEgg());
+        recipe.add(new OwlEgg());
         recipe.add(new HorseMilk());
     }
 

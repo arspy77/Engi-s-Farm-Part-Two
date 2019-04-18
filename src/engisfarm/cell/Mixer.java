@@ -1,14 +1,28 @@
 package engisfarm.cell;
 
+import java.awt.Image;
+import javax.swing.ImageIcon;
+
 /** Mixer merupakan kelas turunan dari Facility yang digunakan untuk membuat SideProduct */
 public class Mixer extends  Facility {
-        /** Return kategori dari objek ini */
-        public Category getCategory()
+    /** Return kategori dari objek ini */
+    public Category getCategory()
+    {
+        return Category.MIXER;
+    }
+
+    /** Mengembalikan Image yang menggambarkan Mixer */
+    public Image render()
+    {
+        ImageIcon icon;
+        if (isGrassExist())
         {
-            return category;
+            icon = new ImageIcon("../resources/mixerGrass.png");
         }
-        
-    
-        /** Menandakan bahwa land bertipe Mixer */
-        private static final Category category = Cell.Category.MIXER;
+        else
+        {
+            icon = new ImageIcon("../resources/mixer.png");
+        }
+        return icon.getImage();
+    }
 }

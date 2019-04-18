@@ -2,7 +2,7 @@ package engisfarm.product;
 
 
 /** kelas turunan dari Farmproduct yang dihasilkan dengan interact dengan duck*/
-public class DuckMeat extends FarmProduct {
+public class DuckMeat implements FarmProduct {
 
     /** getPrice mengembalikan harga yang didefinisikan */
     public int getPrice() {

@@ -1,6 +1,7 @@
 package engisfarm.farmanimal;
 import engisfarm.Point;
 import engisfarm.cell.Cell;
+import engisfarm.Matrix;
 
 /** EggProducer merupakan kelas abstrak turunan dari FarmAnimal yang tinggal di Coop dan menghasilkan Egg saat diinteract */
 public abstract class EggProducer extends FarmAnimal{
@@ -8,7 +9,7 @@ public abstract class EggProducer extends FarmAnimal{
     protected boolean canProduce = false;
 
     /** Constructor maxTimeToGetHungry dengan nilai H */
-    public EggProducer(int maxTimeToGetHungry, Point position, Cell[][] worldMap, int nRowCell, int nCollumnCell){
+    public EggProducer(int maxTimeToGetHungry, Point position, Matrix<Cell> worldMap, int nRowCell, int nCollumnCell){
         super(maxTimeToGetHungry, position, worldMap, nRowCell, nCollumnCell);
     }
 

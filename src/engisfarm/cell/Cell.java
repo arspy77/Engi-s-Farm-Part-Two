@@ -1,5 +1,7 @@
 package engisfarm.cell;
 
+import java.awt.Image;
+
 /** Cell adalah kelas abstrak yang merepresentasikan petak pada Engi's farm*/
 public abstract class Cell{
         /** Jenis kategori Cell */
@@ -47,4 +49,8 @@ public abstract class Cell{
          * True bila cell sedang ditempati oleh sesuatu.
          */
         protected boolean isOcupied = false;
+
+
+        /** Mengembalikan Image yang merepresentasikan Cell */
+        public abstract Image render();
 }

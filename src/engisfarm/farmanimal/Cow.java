@@ -3,6 +3,9 @@ import engisfarm.Point;
 import engisfarm.cell.Cell;
 import engisfarm.product.FarmProduct;
 import engisfarm.product.CowMeat;
+import engisfarm.Matrix;
+import java.awt.Image;
+import javax.swing.ImageIcon;
 
 /** Cow merupakan kelas turunan dari MeatProducer yang menghasilkan CowMeat saat diinteract */
 public class Cow extends MeatProducer{
@@ -10,7 +13,7 @@ public class Cow extends MeatProducer{
     private static final int maxTimeToGetHungryCow = 20;
     
    /** Constructor */
-   public Cow(Point position, Cell[][] worldMap, int nRowCell, int nCollumnCell){
+   public Cow(Point position, Matrix<Cell> worldMap, int nRowCell, int nCollumnCell){
        super(maxTimeToGetHungryCow, position, worldMap, nRowCell, nCollumnCell);
     }
 
@@ -30,12 +33,15 @@ public class Cow extends MeatProducer{
        return "mo~ mo~";
    }
 
-   /** Mengembalikan karakter yang merepresentasikan Cow saat Hungry dan tidak Hungry */
-   public char render(){
-       if (this.isHungry()) {
-           return 'b';
-       } else {
-           return 'B';
-       }
-   }
+   /** Mengembalikan Image yang merepresentasikan Cow saat Hungry dan tidak Hungry */
+   public Image render() {
+    ImageIcon icon;
+    if (isHungry()){
+        icon = new ImageIcon("../resources/cowHungry.png");
+    }
+    else{
+        icon = new ImageIcon("../resources/cow.png");
+    }
+    return icon.getImage();
+}
 }

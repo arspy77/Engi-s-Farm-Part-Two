@@ -2,7 +2,7 @@ package engisfarm.product;
 
 
 /** ChickenEgg adalah kelas turunan dari FarmProduct yang dihasilkan dengan interact dengan Chicken */
-public class ChickenEgg extends FarmProduct {
+public class ChickenEgg implements FarmProduct {
 
     /** getPrice mengembalikan harga yang didefinisikan */
     public int getPrice() {

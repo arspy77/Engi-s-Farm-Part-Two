@@ -1,16 +1,29 @@
 package engisfarm.farmanimal;
 import engisfarm.LivingThing;
+import engisfarm.Matrix;
 import engisfarm.Point;
 import engisfarm.Direction;
 import engisfarm.cell.Cell;
 import engisfarm.product.FarmProduct;
 import java.util.Random;
+import java.awt.Image;
 
 /** 
  * Kelas FarmAnimal merupakan kelas turunan dari living thing yang dapat berupa
  * EggProducer,MilkProducer,dan MeatProducer\
  * */
 public abstract class FarmAnimal extends LivingThing{
+    /** FarmAnimal jalan sendiri berdasarkan selang waktu tertentu */
+    /*public void run()
+    {
+        System.out.println("animal");
+        try{
+        Thread.sleep(1000);
+        tick();
+        }catch(InterruptedException e){
+            e.printStackTrace();
+        }
+    }
     /** Jenis aksi yang dapat dilakukan ke FarmAnimal */
     public enum Action {
         INTERACT, KILL
@@ -35,7 +48,7 @@ public abstract class FarmAnimal extends LivingThing{
     private final int maxTimeToDeath = 5;
     
     /** Constructor maxTimeToGetHungry dengan nilai H */
-    public FarmAnimal(int maxTimeToGetHungry, Point position, Cell[][] worldMap, int nRowCell, int nCollumnCell){
+    public FarmAnimal(int maxTimeToGetHungry, Point position, Matrix<Cell> worldMap, int nRowCell, int nCollumnCell){
         super(position, worldMap, nRowCell, nCollumnCell);
         this.maxTimeToGetHungry = maxTimeToGetHungry;
         this.timeToGetHungry = maxTimeToGetHungry;
@@ -76,10 +89,10 @@ public abstract class FarmAnimal extends LivingThing{
      *  classnya, lalu grass di land dihapus
      */
     protected void eat(){
-        if (worldMap[this.getPosition().y][this.getPosition().x].isGrassExist()) {    
+        if (worldMap.get(this.getPosition().y, this.getPosition().x).isGrassExist()) {    
             timeToDeath = maxTimeToDeath;
             timeToGetHungry = maxTimeToGetHungry;
-            worldMap[getPosition().y][getPosition().x].removeGrass();
+            worldMap.get(getPosition().y, getPosition().x).removeGrass();
         }
     }
 
@@ -95,7 +108,7 @@ public abstract class FarmAnimal extends LivingThing{
         nearestPoint.y = -1;
         for (int i = 0; i < nRowCell; i++) {
             for (int j = 0; j < nCollumnCell; j++) {
-                if (worldMap[i][j].isGrassExist() && this.canMoveTo(worldMap[i][j])) {
+                if (worldMap.get(i, j).isGrassExist() && this.canMoveTo(worldMap.get(i, j))) {
                     currPoint.x = j;
                     currPoint.y = i;
                     if (Point.manhattanDist(this.getPosition(), currPoint) < Point.manhattanDist(this.getPosition(), nearestPoint)){
@@ -142,4 +155,8 @@ public abstract class FarmAnimal extends LivingThing{
 
     /** Apakah bisa masuk suatu area (cek out of bound, jenis Cell, kekosongan Cell) */
     protected abstract boolean canMoveTo(Cell toWhere);  
+
+
+        /** Mengembalikan Image yang merepresentasikan FarmAnimal saat Hungry dan tidak Hungry */
+    public abstract Image render(); 
 }

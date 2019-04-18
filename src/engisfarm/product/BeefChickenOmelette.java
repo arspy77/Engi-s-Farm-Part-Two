@@ -4,7 +4,7 @@ import java.util.LinkedList;
 
 
 /** BeefChickenOmelette adalah kelas turunan dari SideProduct yang dihasilkan dengan mix CowMeat dan ChickenEgg */
-public class BeefChickenOmelette extends SideProduct {
+public class BeefChickenOmelette implements SideProduct {
     
     
     /** 

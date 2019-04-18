@@ -1,6 +1,7 @@
 package engisfarm.farmanimal;
 import engisfarm.Point;
 import engisfarm.cell.Cell;
+import engisfarm.Matrix;
 
 /** 
  * MeatProducer adalah kelas abstrak turunan dari FarmAnimal yang tinggal di barn dan
@@ -8,7 +9,7 @@ import engisfarm.cell.Cell;
  */
 public abstract class MeatProducer extends FarmAnimal{
     /** Constructor maxTimeToGetHungry dengan nilai H */
-    public MeatProducer(int maxTimeToGetHungry, Point position, Cell[][] worldMap, int nRowCell, int nCollumnCell){
+    public MeatProducer(int maxTimeToGetHungry, Point position, Matrix<Cell> worldMap, int nRowCell, int nCollumnCell){
         super(maxTimeToGetHungry, position, worldMap, nRowCell, nCollumnCell);
     }
     
