@@ -1,44 +1,27 @@
 package engisfarm;
 
-import engisfarm.cell.*;
-import engisfarm.farmanimal.*;
-import engisfarm.product.*;
-import java.util.Scanner;
-import java.io.BufferedWriter;
+import engisfarm.World;
+import engisfarm.cell.Cell;
+import engisfarm.farmanimal.FarmAnimal;
+import engisfarm.product.Product;
 import java.util.LinkedList;
-import java.util.Random;
-import java.io.IOException;
+import java.util.Scanner;
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.util.ArrayList;
 import java.awt.Image;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
-
-/** World adalah kelas yang merepresentasikan dunia yang menyimpan semua Cell dan LivingThing di dalamnya */
-public class WorldV extends JPanel {
-    /** Object Random agar setiap playthrough berbeda */
-    private Random rand = new Random();
-
-    /** Object Scanner untuk menerima input dari user */
-    private Scanner in = new Scanner(System.in);
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 
+/** WorldView adalah kelas yang menggambar World */
+public class WorldView extends JPanel {
     private final int OFFSET = 0;
     public final int SPACE = 20;
     private final int CHARSPACE = 10;
     public final int InventoryTabLength = 30;
     public final int mesQueueLength = 50;
-    
-    public int getNRow(){
-        return nRowCell;
-    }
-
-    public int getNCol(){
-        return nCollumnCell;
-    }
 
     @Override
     public void paintComponent(Graphics g) {
@@ -57,7 +40,7 @@ public class WorldV extends JPanel {
             x += CHARSPACE;
         }
     }
-    
+
     private void drawFrame(Graphics g, int n, int x, int y){
         ImageIcon icon = new ImageIcon("../resources/frame.png");
         while(n > 0) {
@@ -66,61 +49,97 @@ public class WorldV extends JPanel {
             n--;
         }
     }
-    
-    
 
-    /**
-    * Membaca input user dari stdin lalu melakukan aksi sesuai degan spesifikasi,
-    * misal, input == MOVELEFT, maka akan dipanggil pl.move(LEFT). 
-    * Bila input == INTERACT, maka akan dipanggil pl.interact(animalList), dsb.
-    */
-    /*public void Input() throws Exception{
-        String inp = in.nextLine().toLowerCase();
-        if (inp.equals("w")) {
-            pl.move(Direction.UP);		
-        } else if (inp.equals("s")) {
-            pl.move(Direction.DOWN);		
-        } else if (inp.equals("a")) {
-            pl.move(Direction.LEFT);
-        } else if (inp.equals("d")) {
-            pl.move(Direction.RIGHT);
-        } else if (inp.equals("talk")) {
-            pl.talk(animalList, mesQueue);
-        } else if (inp.equals("grow")) {
-            pl.grow(mesQueue);
-        } else if (inp.equals("kill")) {
-            pl.kill(animalList);
-        } else if (inp.equals("interact")) {
-            pl.interact(animalList);
-            pl.takeWater();
-            pl.sellAll();
-        } else if (inp.equals("mix")) {
-            pl.mix(mesQueue, in);
-        } else if (inp.equals("exit")) {
-            in.close();
-            throw new Exception();            
-        } else if (inp.equals("")){
-            mesQueue.add("a,w,s,d	Move");
-            mesQueue.add("interact	Interaksi dengan hewan atau benda");
-            mesQueue.add("mix		Membuat side product pada mixer");
-            mesQueue.add("talk		Berbicara dengan hewan");
-            mesQueue.add("kill		Menyembelih hewan ternak");
-            mesQueue.add("grow		Menumbuhkan rumput pada cell");
-            mesQueue.add("exit		Keluar dari game");
+    /** Class KeyListener untuk menerima input key user*/
+    private class KeyListener extends KeyAdapter {
+
+        @Override
+        public void keyPressed(KeyEvent e){
+
+            int key = e.getKeyCode();
+            
+            try {    
+                switch (key) {
+                    case KeyEvent.VK_W:
+                        pl.move(Direction.UP);
+                        break;
+                    
+                    case KeyEvent.VK_S:
+                        pl.move(Direction.DOWN);
+                        break;
+                    
+                    case KeyEvent.VK_A:
+                        pl.move(Direction.LEFT);
+                        break;
+                    
+                    case KeyEvent.VK_D:
+                        pl.move(Direction.RIGHT);
+                        break;
+                    
+                    case KeyEvent.VK_T:
+                        pl.talk(animalList, mesQueue);
+                        break;
+                    
+                    case KeyEvent.VK_I:
+                        pl.interact(animalList);
+                        pl.sellAll();
+                        pl.takeWater();
+                        break;
+
+                    case KeyEvent.VK_G:
+                        pl.grow();
+                        break;
+                    
+                    case KeyEvent.VK_K:
+                        pl.kill(animalList);
+                        break;
+                    
+                    case KeyEvent.VK_M:
+                        pl.mix(in);
+                        break;
+                    
+                    case KeyEvent.VK_H:
+                        mesQueue.add("a,w,s,d   Move");
+                        mesQueue.add("i         Interaksi dengan hewan atau benda");
+                        mesQueue.add("m         Membuat side product pada mixer");
+                        mesQueue.add("t         Berbicara dengan hewan");
+                        mesQueue.add("k         Menyembelih hewan ternak");
+                        mesQueue.add("g         Menumbuhkan rumput pada cell");
+                        mesQueue.add("esc       Keluar dari game");
+                        break;
+                        
+                    case KeyEvent.VK_ESCAPE:
+                        in.close();
+                        break;
+                    
+                    default:
+                        break;
+                }
+            } catch(GeneralException ge) {
+                mesQueue.add(ge.getMessage());
+            }            
+            repaint();
         }
-    }*/
+    }
 
+    public WorldView(World w) {
+        addKeyListener(new KeyListener());
+        setFocusable(true);
 
-    /**
-    * Pada World::Update(), setiap fungsi yang dipanggil secara berkala seperti FarmAnimal::tick()
-    * akan dipanggil.
-    */
+        pl = w.getPlayer();
+        map = w.getMap();
+        nRowCell = w.getNRow();
+        nCollumnCell = w.getNCol();
+        animalList = w.getAnimalList();
+        mesQueue = w.getMesQueue();
+    }
 
     /**
     * Menggambarkan representasi state program (World) seperti lokasi setiap objek, money, water, 
     * dan Inventory Player, dsb ke layar.
     */
     public void Draw(Graphics g){
+
         g.setColor(new Color(13, 63, 114));
         g.fillRect(0, 0,(1 + nCollumnCell + 1 + InventoryTabLength/2 + 2 + mesQueueLength/2 + 1) * SPACE, (nRowCell + 2) * SPACE);
 
@@ -227,4 +246,7 @@ public class WorldV extends JPanel {
     * Antrian pesan yang akan ditampilkan saat render 
     */
     private LinkedList<String> mesQueue;
+
+    /** Object Scanner untuk menerima input dari user */
+    private Scanner in = new Scanner(System.in);
 }

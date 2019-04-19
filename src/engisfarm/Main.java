@@ -31,11 +31,13 @@ public class Main extends JFrame{
 
     private Main(){
         World w = new World(20, 22);
-        add(w);
+        WorldController wc = new WorldController(w);
+        WorldView wv = wc.getWorldView();
+        add(wv);
         setTitle("Engi's Farm");
-        Thread t1 = new Thread(w,"T1");
+        Thread t1 = new Thread(wc,"T1");
         t1.start();
-        setSize((1 + w.getNCol() + 1 + w.InventoryTabLength/2 + 2 + w.mesQueueLength/2 + 1) * w.SPACE + xOffset, (w.getNRow() + 2) * w.SPACE + yOffset);
+        setSize((1 + w.getNCol() + 1 + wv.InventoryTabLength/2 + 2 + wv.mesQueueLength/2 + 1) * wv.SPACE + xOffset, (w.getNRow() + 2) * wv.SPACE + yOffset);
         
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
