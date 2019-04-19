@@ -12,6 +12,6 @@ public class PigMeat implements FarmProduct {
     
     /** Mengembalikan kategori dari produk */
     public Category getCategory() {
-        return Category.PigMEAT;
+        return Category.PIGMEAT;
     }
 }

@@ -3,6 +3,7 @@ package engisfarm.cell;
 import java.awt.Image;
 import javax.swing.ImageIcon;
 
+/** Barn merupakan kelas turunan dari Land yang hanya bisa ditempati oleh Player dan MeatProducer */
 public class Barn extends Land
 {
     /** Return kategori dari objek ini */

@@ -1,16 +1,17 @@
 package engisfarm.farmanimal;
+
 import engisfarm.Point;
+import engisfarm.Matrix;
 import engisfarm.cell.Cell;
 import engisfarm.product.FarmProduct;
 import engisfarm.product.ChickenEgg;
 import java.awt.Image;
 import javax.swing.ImageIcon;
-import engisfarm.Matrix;
 
 /** Chicken merupakan kelas turunan dari EggProducer yang menghasilkan ChickenEgg saat diinteract */
 public class Chicken extends EggProducer{
     /** Nilai dari maxTimeToGetHungry */
-    private static final int maxTimeToGetHungryChicken =15;
+    private static final int maxTimeToGetHungryChicken = 15;
 
     /** Constructor */
     public Chicken(Point position, Matrix<Cell> worldMap, int nRowCell, int nCollumnCell){

@@ -3,35 +3,12 @@ package engisfarm;
 import engisfarm.cell.*;
 import engisfarm.farmanimal.*;
 import engisfarm.product.*;
-import java.util.Scanner;
-import java.io.BufferedWriter;
 import java.util.LinkedList;
 import java.util.Random;
-import java.io.IOException;
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.util.ArrayList;
-import java.awt.Image;
-import javax.swing.ImageIcon;
-import javax.swing.JPanel;
 
 /** World adalah kelas yang merepresentasikan dunia yang menyimpan semua Cell dan LivingThing di dalamnya */
 public class World {
-    /** Object Random agar setiap playthrough berbeda */
-    private Random rand = new Random();
 
-    /** Object Scanner untuk menerima input dari user */
-    private Scanner in = new Scanner(System.in);
-
-    public int getNRow(){
-        return nRowCell;
-    }
-
-    public int getNCol(){
-        return nCollumnCell;
-    }
     
     /** 
     * Constructor World.
@@ -183,7 +160,7 @@ public class World {
             String sideProd = "";
             if (pl.getrecipeBook().get(i).getCategory() == Product.Category.BEEFCHICKENOMELETTE) {
                     sideProd = ".  *Beef Chicken Omelette*";
-            } else if (pl.getrecipeBook().get(i).getCategory() == Product.Category.BEEFMUTTONSATE) {
+            } else if (pl.getrecipeBook().get(i).getCategory() == Product.Category.BEEFHARAMSATE) {
                 sideProd = ".  *Beef Muton Sate*";
             } else if (pl.getrecipeBook().get(i).getCategory() == Product.Category.SUPERSECRETSPECIALPRODUCT) {
                 sideProd = ".  *Super Secret Special Product*";
@@ -197,15 +174,15 @@ public class World {
                     prod = "       -Cow Meat";
                 } else if (pl.getrecipeBook().get(i).getRecipe().get(j).getCategory() == Product.Category.BEEFCHICKENOMELETTE) {
                     prod = "       -Beef Chicken Omelette";
-                } else if (pl.getrecipeBook().get(i).getRecipe().get(j).getCategory() == Product.Category.BEEFMUTTONSATE) {
+                } else if (pl.getrecipeBook().get(i).getRecipe().get(j).getCategory() == Product.Category.BEEFHARAMSATE) {
                     prod = "       -Beef Muton Sate";
                 } else if (pl.getrecipeBook().get(i).getRecipe().get(j).getCategory() == Product.Category.DUCKMEAT) {
                     prod = "       -Duck Meat";
                 } else if (pl.getrecipeBook().get(i).getRecipe().get(j).getCategory() == Product.Category.HORSEMILK) {
                     prod = "       -Horse Milk";
-                } else if (pl.getrecipeBook().get(i).getRecipe().get(j).getCategory() == Product.Category.OwlEGG) {
+                } else if (pl.getrecipeBook().get(i).getRecipe().get(j).getCategory() == Product.Category.OWLEGG) {
                     prod = "       -Owl Egg";
-                } else if (pl.getrecipeBook().get(i).getRecipe().get(j).getCategory() == Product.Category.PigMEAT) {
+                } else if (pl.getrecipeBook().get(i).getRecipe().get(j).getCategory() == Product.Category.PIGMEAT) {
                     prod = "       -Pig Meat";
                 } else if (pl.getrecipeBook().get(i).getRecipe().get(j).getCategory() == Product.Category.SUPERSECRETSPECIALPRODUCT) {
                     prod = "       -Super Secret Special Product";
@@ -219,6 +196,15 @@ public class World {
                     mesQueue.add(" -Chicken Egg        ");
                     break;*/
         }
+    }
+
+
+    public int getNRow(){
+        return nRowCell;
+    }
+
+    public int getNCol(){
+        return nCollumnCell;
     }
 
     public Player getPlayer() {
@@ -236,6 +222,9 @@ public class World {
     public LinkedList<String> getMesQueue() {
         return mesQueue;
     }
+
+    /** Object Random agar setiap playthrough berbeda */
+    private Random rand = new Random();
 
     /** Player yang berada pada World */
     private Player pl;

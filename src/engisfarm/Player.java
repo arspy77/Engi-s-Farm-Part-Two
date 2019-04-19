@@ -11,23 +11,8 @@ import java.util.*;
 import java.awt.Image;
 import javax.swing.ImageIcon;
 
+/** Kelas yang merepresentasikan Pemain dan semua aksi yang dapat dia lakukan */
 public class Player extends LivingThing {
-    boolean adjPosition(Point P1,Point P2) {
-        if(P1.x+1 == P2.x && P1.y == P2.y) {
-            return true;
-        }
-        if(P1.x-1 == P2.x && P1.y == P2.y) {
-            return true;
-        }
-        if(P1.x == P2.x && P1.y+1 == P2.y) {
-            return true;
-        }
-        if(P1.x == P2.x && P1.y-1 == P2.y) {
-            return true;
-        }
-        return false;
-    }
-    
     /** Constructor Player di position, recipeBook diinisalisasi dengan semua SideProduct yang terdefinisi */
     public Player(Point position, Matrix<Cell> worldMap, int nRowCell, int nCollumnCell) {
         super(position, worldMap, nRowCell, nCollumnCell);
@@ -125,7 +110,7 @@ public class Player extends LivingThing {
                     }
                     if (recipeBook.get(choice - 1).getCategory() == Product.Category.BEEFCHICKENOMELETTE) {
                         inventory.add(new BeefChickenOmelette());
-                    } else if (recipeBook.get(choice - 1).getCategory() == Product.Category.BEEFMUTTONSATE) {
+                    } else if (recipeBook.get(choice - 1).getCategory() == Product.Category.BEEFHARAMSATE) {
                         inventory.add(new BeefHaramSate());
                     } else if (recipeBook.get(choice - 1).getCategory() == Product.Category.SUPERSECRETSPECIALPRODUCT) {
                         inventory.add(new SuperSecretSpecialProduct());
@@ -151,8 +136,8 @@ public class Player extends LivingThing {
             ((getPosition().y - 1 >= 0 && getPosition().y - 1 < nRowCell && getPosition().x >= 0 && getPosition().x < nCollumnCell) && worldMap.get(getPosition().y - 1,getPosition().x).getCategory() == Cell.Category.WELL) ||
             ((getPosition().y >= 0 && getPosition().y < nRowCell && getPosition().x - 1 >= 0 && getPosition().x - 1 < nCollumnCell) && worldMap.get(getPosition().y,getPosition().x - 1).getCategory() == Cell.Category.WELL)) {
             this.water = 20;
+            throw new GeneralException("You take clear water from the well before you");
         }
-        throw new GeneralException("You take clear water from the well before you");
     }
 
     /** Menjual semua product di inventory */ //Awalnya tidak ada
@@ -167,8 +152,8 @@ public class Player extends LivingThing {
                 sum += inventory.get(0).getPrice();
                 inventory.remove(0);
             }
+            throw new GeneralException("Oh no! Your inventory is gone. But you just got Rp" + Integer.toString(sum));
         }
-        throw new GeneralException("Oh no! Your inventory is gone. But you just got Rp" + Integer.toString(sum));
     }
 
     /** Getter banyak uang yang dimiliki Player */ //Awalnya tidak ada
@@ -205,8 +190,8 @@ public class Player extends LivingThing {
     /** 
         * Digunakan untuk melakukan pengecekan saat melakukan method mix 
         * Contoh Pengunaan : 
-        * Bila player ingin membuat BeefMuttonSate, program tranversal di recipeeBook sampai
-        * menemukan sideProdect dengan Category = BEEFMUTTONSATE lalu melihat resep dari objek
+        * Bila player ingin membuat BeefHaramSate, program tranversal di recipeeBook sampai
+        * menemukan sideProdect dengan Category = BEEFHARAMSATE lalu melihat resep dari objek
         * tersebut.
         * recipeBook diinisalisasi di implementasi
         */
@@ -215,5 +200,22 @@ public class Player extends LivingThing {
     /** Apakah bisa masuk suatu area (cek out of bound, jenis Cell, kekosongan Cell) */
     protected boolean canMoveTo(Cell toWhere) {
         return !toWhere.getIsOcupied();
+    }
+
+    /** Mengembalikan true jika kedua Point bersebelahan */
+    boolean adjPosition(Point P1, Point P2) {
+        if(P1.x+1 == P2.x && P1.y == P2.y) {
+            return true;
+        }
+        if(P1.x-1 == P2.x && P1.y == P2.y) {
+            return true;
+        }
+        if(P1.x == P2.x && P1.y+1 == P2.y) {
+            return true;
+        }
+        if(P1.x == P2.x && P1.y-1 == P2.y) {
+            return true;
+        }
+        return false;
     }
 };

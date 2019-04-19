@@ -6,9 +6,9 @@ public interface Product {
     
     /** enumerasi kategori dari suatu produk, return value dari getCategory */
         public enum Category {
-        CHICKENEGG, BEEFCHICKENOMELETTE, BEEFMUTTONSATE, 
-        COWMEAT, DUCKMEAT, HORSEMILK, OwlEGG, 
-        PigMEAT, SUPERSECRETSPECIALPRODUCT;
+        CHICKENEGG, BEEFCHICKENOMELETTE, BEEFHARAMSATE, 
+        COWMEAT, DUCKMEAT, HORSEMILK, OWLEGG, 
+        PIGMEAT, SUPERSECRETSPECIALPRODUCT;
     }
 
 

@@ -16,12 +16,9 @@ import java.awt.event.KeyEvent;
 
 
 /** WorldView adalah kelas yang menggambar World */
+@SuppressWarnings("serial")    
 public class WorldView extends JPanel {
-    private final int OFFSET = 0;
-    public final int SPACE = 20;
-    private final int CHARSPACE = 10;
-    public final int InventoryTabLength = 30;
-    public final int mesQueueLength = 50;
+
 
     @Override
     public void paintComponent(Graphics g) {
@@ -30,7 +27,7 @@ public class WorldView extends JPanel {
     }
 
     private Image getCharImage(char c){
-        ImageIcon icon = new ImageIcon("../resources/huruf/Gold " + Integer.toString((int)c) + ".png");
+        ImageIcon icon = new ImageIcon("../resources/char/Gold " + Integer.toString((int)c) + ".png");
         return icon.getImage();
     }
 
@@ -187,15 +184,15 @@ public class WorldView extends JPanel {
                         invObj = " Cow Meat";
                     } else if (pl.getInventory().get(i).getCategory() == Product.Category.BEEFCHICKENOMELETTE) {
                         invObj = " Beef Chicken Omelette";
-                    } else if (pl.getInventory().get(i).getCategory() == Product.Category.BEEFMUTTONSATE) {
+                    } else if (pl.getInventory().get(i).getCategory() == Product.Category.BEEFHARAMSATE) {
                         invObj = " Beef Muton Sate";
                     } else if (pl.getInventory().get(i).getCategory() == Product.Category.DUCKMEAT) {
                         invObj = " Duck Meat";
                     } else if (pl.getInventory().get(i).getCategory() == Product.Category.HORSEMILK) {
                         invObj = " Horse Milk";
-                    } else if (pl.getInventory().get(i).getCategory() == Product.Category.OwlEGG) {
+                    } else if (pl.getInventory().get(i).getCategory() == Product.Category.OWLEGG) {
                         invObj = " Owl Egg";
-                    } else if (pl.getInventory().get(i).getCategory() == Product.Category.PigMEAT) {
+                    } else if (pl.getInventory().get(i).getCategory() == Product.Category.PIGMEAT) {
                         invObj = " Pig Meat";
                     } else if (pl.getInventory().get(i).getCategory() == Product.Category.SUPERSECRETSPECIALPRODUCT) {
                         invObj = " Super Secret Special Product";
@@ -223,9 +220,15 @@ public class WorldView extends JPanel {
             x = OFFSET;
         }
         drawFrame(g, 1 + nCollumnCell + 1 + InventoryTabLength/2 + 1 + 1 + mesQueueLength/2 + 1, x, y);  //drawFrame(1 + nCollumnCell*2 + InventoryTabLength + 1 + 4);
-        //log.write("\n");
-        //log.flush();
     }
+
+
+    public final int SPACE = 20;
+    public final int InventoryTabLength = 30;
+    public final int mesQueueLength = 50;
+    
+    private final int CHARSPACE = 10;
+    private final int OFFSET = 0;
 
     /** Player yang berada pada World */
     private Player pl;

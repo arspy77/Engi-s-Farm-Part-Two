@@ -1,4 +1,5 @@
 package engisfarm.farmanimal;
+
 import engisfarm.Point;
 import engisfarm.cell.Cell;
 import engisfarm.product.FarmProduct;

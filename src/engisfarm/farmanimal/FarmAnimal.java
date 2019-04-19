@@ -1,4 +1,5 @@
 package engisfarm.farmanimal;
+
 import engisfarm.LivingThing;
 import engisfarm.Matrix;
 import engisfarm.Point;
@@ -10,7 +11,7 @@ import java.awt.Image;
 
 /** 
  * Kelas FarmAnimal merupakan kelas turunan dari living thing yang dapat berupa
- * EggProducer,MilkProducer,dan MeatProducer\
+ * EggProducer, MilkProducer, dan MeatProducer
  * */
 public abstract class FarmAnimal extends LivingThing{
     /** FarmAnimal jalan sendiri berdasarkan selang waktu tertentu */

@@ -12,6 +12,6 @@ public class OwlEgg implements FarmProduct {
     
     /** Mengembalikan kategori dari produk */
     public Category getCategory() {
-        return Category.OwlEGG;
+        return Category.OWLEGG;
     }
 }

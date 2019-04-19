@@ -2,9 +2,9 @@ package engisfarm;
 
 import java.util.LinkedList;
 
+/** Kelas generic yang merepresentasikan matriks dua dimensi */
 public class Matrix<Type> {
-    private LinkedList<LinkedList<Type>> data;
-
+    /** Constructor dari Matrix */
     public Matrix(int nRow, int nColl, Type init) {
         data = new LinkedList<LinkedList<Type>>();
         for (int i = 0; i < nRow; i++) {
@@ -26,4 +26,7 @@ public class Matrix<Type> {
     public void set(int i, int j, Type elmt) {
         data.get(i).set(j, elmt);
     }
+
+    /** Container dari data matriks */
+    private LinkedList<LinkedList<Type>> data;
 } 

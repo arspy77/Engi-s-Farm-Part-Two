@@ -3,11 +3,11 @@ package engisfarm.product;
 import java.util.LinkedList;
 
 
-/** BeefMuttonSate adalah kelas turunan dari SideProduct yang dihasilkan dengan mix CowMeat dan PigMeat */
+/** BeefHaramSate adalah kelas turunan dari SideProduct yang dihasilkan dengan mix CowMeat dan PigMeat */
 public class BeefHaramSate implements SideProduct {
     
     /** 
-    *  Resep BeefMuttonSate.
+    *  Resep BeefHaramSate.
     *  Terdiri dari CowMeat dan PigMeat.
     */
     private static LinkedList<Product> recipe;
@@ -28,7 +28,7 @@ public class BeefHaramSate implements SideProduct {
 
     /** Mengembalikan category dari produk */
     public Category getCategory() {
-        return Category.BEEFMUTTONSATE;
+        return Category.BEEFHARAMSATE;
     }
 
     /** Mengembalikan resep dari produk */

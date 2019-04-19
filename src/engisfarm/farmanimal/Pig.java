@@ -1,12 +1,12 @@
 package engisfarm.farmanimal;
 
 import engisfarm.Point;
+import engisfarm.Matrix;
 import engisfarm.cell.Cell;
 import engisfarm.product.FarmProduct;
 import engisfarm.product.PigMeat;
 import java.awt.Image;
 import javax.swing.ImageIcon;
-import engisfarm.Matrix;
 
 /**
  * Pig merupakan kelas turunan dari MeatProducer yang menghasilkan PigMeat saat

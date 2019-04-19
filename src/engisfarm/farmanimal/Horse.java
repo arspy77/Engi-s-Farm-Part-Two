@@ -1,11 +1,13 @@
 package engisfarm.farmanimal;
+
 import engisfarm.Point;
+import engisfarm.Matrix;
 import engisfarm.cell.Cell;
 import engisfarm.product.FarmProduct;
 import engisfarm.product.HorseMilk;
 import java.awt.Image;
 import javax.swing.ImageIcon;
-import engisfarm.Matrix;
+
 /** Horse merupakan kelas turunan dari MilkProducer yang menghasilkan HorseMilk saat diinteract */
 public class Horse extends MilkProducer{
     /** Nilai dari maxTimeToGetHungry */

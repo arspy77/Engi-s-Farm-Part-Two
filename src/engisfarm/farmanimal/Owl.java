@@ -1,11 +1,13 @@
 package engisfarm.farmanimal;
+
 import engisfarm.Point;
 import engisfarm.cell.Cell;
+import engisfarm.Matrix;
 import engisfarm.product.FarmProduct;
 import engisfarm.product.OwlEgg;
 import java.awt.Image;
 import javax.swing.ImageIcon;
-import engisfarm.Matrix;
+
 /** Owl merupakan kelas turunan dari EggProducer yang menghasilkan OwlEgg saat diinteract */
 public class Owl extends EggProducer{
     /** Nilai dari maxTimeToGetHungry */
