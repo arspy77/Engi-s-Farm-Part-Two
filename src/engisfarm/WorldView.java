@@ -11,6 +11,7 @@ import java.awt.Graphics;
 import java.awt.Image;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
+import javax.swing.JOptionPane;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
@@ -19,18 +20,20 @@ import java.awt.event.KeyEvent;
 @SuppressWarnings("serial")    
 public class WorldView extends JPanel {
 
-
+    /** Menyiapkan JPanel untuk mengambarkan output */
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Draw(g);
     }
 
+    /** Mendapatkan gambar yang merepresentasikan karakter c */
     private Image getCharImage(char c){
         ImageIcon icon = new ImageIcon("../resources/char/Gold " + Integer.toString((int)c) + ".png");
         return icon.getImage();
     }
 
+    /** Menuliskan string s pada posisi (x, y) */
     private void drawString(Graphics g, String s, int x, int y){
         for(int i = 0; i < s.length(); i++){
             g.drawImage(getCharImage(s.charAt(i)), x, y, this);
@@ -38,12 +41,52 @@ public class WorldView extends JPanel {
         }
     }
 
+    /** Menggambarkan Frame sebanyak n secara mendatar */
     private void drawFrame(Graphics g, int n, int x, int y){
         ImageIcon icon = new ImageIcon("../resources/frame.png");
         while(n > 0) {
             g.drawImage(icon.getImage(), x, y, this);
             x += SPACE;
             n--;
+        }
+    }
+
+    /** Memasukkan resep kedalam message queue untuk ditampilkan pada saat draw */
+    public void displayRecipe() {
+        mesQueue.add("========RECIPE=======");
+        for (int i = 0; i < pl.getrecipeBook().size(); i++) {
+            String sideProd = "";
+            if (pl.getrecipeBook().get(i).getCategory() == Product.Category.BEEFCHICKENOMELETTE) {
+                    sideProd = ".  *Beef Chicken Omelette*";
+            } else if (pl.getrecipeBook().get(i).getCategory() == Product.Category.BEEFHARAMSATE) {
+                sideProd = ".  *Beef Haram Sate*";
+            } else if (pl.getrecipeBook().get(i).getCategory() == Product.Category.SUPERSECRETSPECIALPRODUCT) {
+                sideProd = ".  *Super Secret Special Product*";
+            }
+            mesQueue.add((i+1) + sideProd);
+            for (int j = 0; j < pl.getrecipeBook().get(i).getRecipe().size(); j++){
+                String prod = "";
+                if (pl.getrecipeBook().get(i).getRecipe().get(j).getCategory() == Product.Category.CHICKENEGG) {
+                    prod = "       -Chicken Egg";
+                } else if (pl.getrecipeBook().get(i).getRecipe().get(j).getCategory() == Product.Category.COWMEAT) {
+                    prod = "       -Cow Meat";
+                } else if (pl.getrecipeBook().get(i).getRecipe().get(j).getCategory() == Product.Category.BEEFCHICKENOMELETTE) {
+                    prod = "       -Beef Chicken Omelette";
+                } else if (pl.getrecipeBook().get(i).getRecipe().get(j).getCategory() == Product.Category.BEEFHARAMSATE) {
+                    prod = "       -Beef Haram Sate";
+                } else if (pl.getrecipeBook().get(i).getRecipe().get(j).getCategory() == Product.Category.DUCKMEAT) {
+                    prod = "       -Duck Meat";
+                } else if (pl.getrecipeBook().get(i).getRecipe().get(j).getCategory() == Product.Category.HORSEMILK) {
+                    prod = "       -Horse Milk";
+                } else if (pl.getrecipeBook().get(i).getRecipe().get(j).getCategory() == Product.Category.OWLEGG) {
+                    prod = "       -Owl Egg";
+                } else if (pl.getrecipeBook().get(i).getRecipe().get(j).getCategory() == Product.Category.PIGMEAT) {
+                    prod = "       -Pig Meat";
+                } else if (pl.getrecipeBook().get(i).getRecipe().get(j).getCategory() == Product.Category.SUPERSECRETSPECIALPRODUCT) {
+                    prod = "       -Super Secret Special Product";
+                }
+                mesQueue.add(prod);
+            }
         }
     }
 
@@ -92,7 +135,11 @@ public class WorldView extends JPanel {
                         break;
                     
                     case KeyEvent.VK_M:
-                        pl.mix(in);
+                        try{
+                            pl.mix();
+                        }catch(NumberFormatException exp){
+                            throw new GeneralException("Input harus integer!");
+                        }
                         break;
                     
                     case KeyEvent.VK_H:
@@ -106,19 +153,34 @@ public class WorldView extends JPanel {
                         break;
                         
                     case KeyEvent.VK_ESCAPE:
-                        in.close();
+                        System.exit(0);
+                        break;
+                    
+                    case KeyEvent.VK_BACK_SPACE:
+                        String cheat = JOptionPane.showInputDialog("Please input secret code : ");
+                        switch (cheat){
+                            default:
+                                mesQueue.add("HEHEHE");
+                                break;
+                        }
                         break;
                     
                     default:
                         break;
                 }
             } catch(GeneralException ge) {
-                mesQueue.add(ge.getMessage());
-            }            
+                String[] Sentences = ge.getMessage().split("\n");
+                for (String sentence : Sentences) {
+                    mesQueue.add(sentence);
+                }
+            }
+            displayRecipe();        
             repaint();
+            
         }
     }
 
+    /** Ctor untuk class WorldView */
     public WorldView(World w) {
         addKeyListener(new KeyListener());
         setFocusable(true);
@@ -177,24 +239,24 @@ public class WorldView extends JPanel {
             }
             else if (i >= 1 && i < nRowCell - 3) {
                 String invObj = "";
-                if ((i) < pl.getInventory().size()) {
-                    if (pl.getInventory().get(i).getCategory() == Product.Category.CHICKENEGG) {
+                if ((i) <= pl.getInventory().size()) {
+                    if (pl.getInventory().get(i-1).getCategory() == Product.Category.CHICKENEGG) {
                         invObj = " Chicken Egg";
-                    } else if (pl.getInventory().get(i).getCategory() == Product.Category.COWMEAT) {
+                    } else if (pl.getInventory().get(i-1).getCategory() == Product.Category.COWMEAT) {
                         invObj = " Cow Meat";
-                    } else if (pl.getInventory().get(i).getCategory() == Product.Category.BEEFCHICKENOMELETTE) {
+                    } else if (pl.getInventory().get(i-1).getCategory() == Product.Category.BEEFCHICKENOMELETTE) {
                         invObj = " Beef Chicken Omelette";
-                    } else if (pl.getInventory().get(i).getCategory() == Product.Category.BEEFHARAMSATE) {
-                        invObj = " Beef Muton Sate";
-                    } else if (pl.getInventory().get(i).getCategory() == Product.Category.DUCKMEAT) {
+                    } else if (pl.getInventory().get(i-1).getCategory() == Product.Category.BEEFHARAMSATE) {
+                        invObj = " Beef Haram Sate";
+                    } else if (pl.getInventory().get(i-1).getCategory() == Product.Category.DUCKMEAT) {
                         invObj = " Duck Meat";
-                    } else if (pl.getInventory().get(i).getCategory() == Product.Category.HORSEMILK) {
+                    } else if (pl.getInventory().get(i-1).getCategory() == Product.Category.HORSEMILK) {
                         invObj = " Horse Milk";
-                    } else if (pl.getInventory().get(i).getCategory() == Product.Category.OWLEGG) {
+                    } else if (pl.getInventory().get(i-1).getCategory() == Product.Category.OWLEGG) {
                         invObj = " Owl Egg";
-                    } else if (pl.getInventory().get(i).getCategory() == Product.Category.PIGMEAT) {
+                    } else if (pl.getInventory().get(i-1).getCategory() == Product.Category.PIGMEAT) {
                         invObj = " Pig Meat";
-                    } else if (pl.getInventory().get(i).getCategory() == Product.Category.SUPERSECRETSPECIALPRODUCT) {
+                    } else if (pl.getInventory().get(i-1).getCategory() == Product.Category.SUPERSECRETSPECIALPRODUCT) {
                         invObj = " Super Secret Special Product";
                     }
                     
@@ -211,7 +273,10 @@ public class WorldView extends JPanel {
             x += (InventoryTabLength) * CHARSPACE;            
             drawFrame(g, 1, x, y);
             x += 2 * SPACE;//log.write("# ");
-            if (!mesQueue.isEmpty()) {
+            if (i == 0){
+                drawString(g, "Message log :", x, y);
+            }
+            else if (!mesQueue.isEmpty()) {
                 drawString(g, mesQueue.remove(0), x, y);//log.write(mesQueue.remove(0));
             }
             x += mesQueueLength * CHARSPACE;
@@ -222,12 +287,19 @@ public class WorldView extends JPanel {
         drawFrame(g, 1 + nCollumnCell + 1 + InventoryTabLength/2 + 1 + 1 + mesQueueLength/2 + 1, x, y);  //drawFrame(1 + nCollumnCell*2 + InventoryTabLength + 1 + 4);
     }
 
-
+    /** Width dan Height dari setiap blok, digunakan pada saat draw */
     public final int SPACE = 20;
+
+    /** Banyaknya karakter yang yang dapat ditampung secara horizontal pada Inventory */
     public final int InventoryTabLength = 30;
+    
+    /** Banyaknya karakter yang yang dapat ditampung secara horizontal pada tab message */
     public final int mesQueueLength = 50;
     
+    /** Width dari blok karakter */
     private final int CHARSPACE = 10;
+    
+    /** Spasi frame dengan window */
     private final int OFFSET = 0;
 
     /** Player yang berada pada World */
@@ -250,6 +322,4 @@ public class WorldView extends JPanel {
     */
     private LinkedList<String> mesQueue;
 
-    /** Object Scanner untuk menerima input dari user */
-    private Scanner in = new Scanner(System.in);
 }

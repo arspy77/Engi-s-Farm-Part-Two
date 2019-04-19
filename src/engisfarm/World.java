@@ -134,6 +134,45 @@ public class World {
             map.get(pLoc.y, pLoc.x).setIsOcupied(true);
         }
     }
+    
+    /** Memasukkan resep kedalam message queue untuk ditampilkan pada saat draw */
+    public void displayRecipe() {
+        mesQueue.add("========RECIPE=======");
+        for (int i = 0; i < pl.getrecipeBook().size(); i++) {
+            String sideProd = "";
+            if (pl.getrecipeBook().get(i).getCategory() == Product.Category.BEEFCHICKENOMELETTE) {
+                    sideProd = ".  *Beef Chicken Omelette*";
+            } else if (pl.getrecipeBook().get(i).getCategory() == Product.Category.BEEFHARAMSATE) {
+                sideProd = ".  *Beef Haram Sate*";
+            } else if (pl.getrecipeBook().get(i).getCategory() == Product.Category.SUPERSECRETSPECIALPRODUCT) {
+                sideProd = ".  *Super Secret Special Product*";
+            }
+            mesQueue.add((i+1) + sideProd);
+            for (int j = 0; j < pl.getrecipeBook().get(i).getRecipe().size(); j++){
+                String prod = "";
+                if (pl.getrecipeBook().get(i).getRecipe().get(j).getCategory() == Product.Category.CHICKENEGG) {
+                    prod = "       -Chicken Egg";
+                } else if (pl.getrecipeBook().get(i).getRecipe().get(j).getCategory() == Product.Category.COWMEAT) {
+                    prod = "       -Cow Meat";
+                } else if (pl.getrecipeBook().get(i).getRecipe().get(j).getCategory() == Product.Category.BEEFCHICKENOMELETTE) {
+                    prod = "       -Beef Chicken Omelette";
+                } else if (pl.getrecipeBook().get(i).getRecipe().get(j).getCategory() == Product.Category.BEEFHARAMSATE) {
+                    prod = "       -Beef Haram Sate";
+                } else if (pl.getrecipeBook().get(i).getRecipe().get(j).getCategory() == Product.Category.DUCKMEAT) {
+                    prod = "       -Duck Meat";
+                } else if (pl.getrecipeBook().get(i).getRecipe().get(j).getCategory() == Product.Category.HORSEMILK) {
+                    prod = "       -Horse Milk";
+                } else if (pl.getrecipeBook().get(i).getRecipe().get(j).getCategory() == Product.Category.OWLEGG) {
+                    prod = "       -Owl Egg";
+                } else if (pl.getrecipeBook().get(i).getRecipe().get(j).getCategory() == Product.Category.PIGMEAT) {
+                    prod = "       -Pig Meat";
+                } else if (pl.getrecipeBook().get(i).getRecipe().get(j).getCategory() == Product.Category.SUPERSECRETSPECIALPRODUCT) {
+                    prod = "       -Super Secret Special Product";
+                }
+                mesQueue.add(prod);
+            }
+        }
+    }
 
     /**
     * Pada World::Update(), setiap fungsi yang dipanggil secara berkala seperti FarmAnimal::tick()
@@ -155,70 +194,35 @@ public class World {
             }
         }
     
-        mesQueue.add("========RECIPE=======");
-        for (int i = 0; i < pl.getrecipeBook().size(); i++) {
-            String sideProd = "";
-            if (pl.getrecipeBook().get(i).getCategory() == Product.Category.BEEFCHICKENOMELETTE) {
-                    sideProd = ".  *Beef Chicken Omelette*";
-            } else if (pl.getrecipeBook().get(i).getCategory() == Product.Category.BEEFHARAMSATE) {
-                sideProd = ".  *Beef Muton Sate*";
-            } else if (pl.getrecipeBook().get(i).getCategory() == Product.Category.SUPERSECRETSPECIALPRODUCT) {
-                sideProd = ".  *Super Secret Special Product*";
-            }
-            mesQueue.add((i+1) + sideProd);
-            for (int j = 0; j < pl.getrecipeBook().get(i).getRecipe().size(); j++){
-                String prod = "";
-                if (pl.getrecipeBook().get(i).getRecipe().get(j).getCategory() == Product.Category.CHICKENEGG) {
-                    prod = "       -Chicken Egg";
-                } else if (pl.getrecipeBook().get(i).getRecipe().get(j).getCategory() == Product.Category.COWMEAT) {
-                    prod = "       -Cow Meat";
-                } else if (pl.getrecipeBook().get(i).getRecipe().get(j).getCategory() == Product.Category.BEEFCHICKENOMELETTE) {
-                    prod = "       -Beef Chicken Omelette";
-                } else if (pl.getrecipeBook().get(i).getRecipe().get(j).getCategory() == Product.Category.BEEFHARAMSATE) {
-                    prod = "       -Beef Muton Sate";
-                } else if (pl.getrecipeBook().get(i).getRecipe().get(j).getCategory() == Product.Category.DUCKMEAT) {
-                    prod = "       -Duck Meat";
-                } else if (pl.getrecipeBook().get(i).getRecipe().get(j).getCategory() == Product.Category.HORSEMILK) {
-                    prod = "       -Horse Milk";
-                } else if (pl.getrecipeBook().get(i).getRecipe().get(j).getCategory() == Product.Category.OWLEGG) {
-                    prod = "       -Owl Egg";
-                } else if (pl.getrecipeBook().get(i).getRecipe().get(j).getCategory() == Product.Category.PIGMEAT) {
-                    prod = "       -Pig Meat";
-                } else if (pl.getrecipeBook().get(i).getRecipe().get(j).getCategory() == Product.Category.SUPERSECRETSPECIALPRODUCT) {
-                    prod = "       -Super Secret Special Product";
-                }
-                mesQueue.add(prod);
-            }
-            /*switch (i) :
-                case 0:	
-                    mesQueue.add("*BeefChickenOmelette*");
-                    mesQueue.add(" -Beef Meat          ");
-                    mesQueue.add(" -Chicken Egg        ");
-                    break;*/
-        }
+        displayRecipe();
     }
 
-
+    /** Getter */
     public int getNRow(){
         return nRowCell;
     }
 
+    /** Getter */
     public int getNCol(){
         return nCollumnCell;
     }
 
+    /** Getter */
     public Player getPlayer() {
         return pl;
     }
 
+    /** Getter */
     public Matrix<Cell> getMap() {
         return map;
     }
 
+    /** Getter */
     public LinkedList<FarmAnimal> getAnimalList() {
         return animalList;
     }
 
+    /** Getter */
     public LinkedList<String> getMesQueue() {
         return mesQueue;
     }

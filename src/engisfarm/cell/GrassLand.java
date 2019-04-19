@@ -6,7 +6,7 @@ import javax.swing.ImageIcon;
 /** GrassLand merupakan kelas turunan dari Land yang hanya bisa ditempati oleh Player dan MilkProducer */
 public class GrassLand extends Land{
     
-        /** Return kategori dari objek ini */
+    /** Return kategori dari objek ini */
     public Category getCategory()
     {
         return Category.GRASSLAND;

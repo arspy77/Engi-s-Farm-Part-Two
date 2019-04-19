@@ -137,14 +137,20 @@ public abstract class FarmAnimal extends LivingThing{
                     break;
             }
         } else if (Point.manhattanDist(this.getPosition(), nearestPoint) != 0) {
-            if (Math.abs(this.getPosition().x - nearestPoint.x) > Math.abs(this.getPosition().y - nearestPoint.y)) {
-                if (this.getPosition().x < nearestPoint.x) {
+            if (Math.abs(this.getPosition().x - nearestPoint.x) > Math.abs(this.getPosition().y - nearestPoint.y)
+            && ((this.getPosition().x < nCollumnCell-1 && this.canMoveTo(worldMap.get(this.getPosition().y, this.getPosition().x+1))) 
+            || (this.getPosition().x > 0 && this.canMoveTo(worldMap.get(this.getPosition().y, this.getPosition().x-1))) ) ) {
+                if (this.getPosition().x < nearestPoint.x 
+                && this.getPosition().x < nCollumnCell-1 
+                && this.canMoveTo(worldMap.get(this.getPosition().y, this.getPosition().x+1))) {
                     d = Direction.RIGHT;
                 } else {
                     d = Direction.LEFT;
                 }
             } else {
-                if (this.getPosition().y < nearestPoint.y) {
+                if (this.getPosition().y < nearestPoint.y 
+                && this.getPosition().y < nRowCell-1 
+                && this.canMoveTo(worldMap.get(this.getPosition().y+1, this.getPosition().x))) {
                     d = Direction.DOWN;
                 } else {
                     d = Direction.UP;

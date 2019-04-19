@@ -9,6 +9,7 @@ import engisfarm.product.BeefHaramSate;
 import engisfarm.product.SuperSecretSpecialProduct;
 import java.util.*;
 import java.awt.Image;
+import javax.swing.JOptionPane;
 import javax.swing.ImageIcon;
 
 /** Kelas yang merepresentasikan Pemain dan semua aksi yang dapat dia lakukan */
@@ -50,7 +51,7 @@ public class Player extends LivingThing {
             }
         }
         if (haveInteract) {
-            throw new GeneralException("Wonderfull! You have done something great! ");
+            throw new GeneralException("Wonderfull! \nYou have done something great! ");
         }
     }
 
@@ -72,7 +73,7 @@ public class Player extends LivingThing {
             }
         }
         if (haveKill) {
-            throw new GeneralException("What have you done! You have killed kawaii beings!");
+            throw new GeneralException("What have you done! \nYou have killed kawaii beings!");
         }
     }
 
@@ -88,24 +89,37 @@ public class Player extends LivingThing {
     }
 
     /** Menciptakan SideProduct dari FarmProduct bila Player dekat dengan mixer */
-    public void mix(Scanner in) throws GeneralException {
-        int choice = -1;
+    public void mix() throws GeneralException {
+        
         if (((getPosition().y + 1 >= 0 && getPosition().y + 1 < nRowCell && getPosition().x >= 0 && getPosition().x < nCollumnCell) && worldMap.get(getPosition().y + 1,getPosition().x).getCategory() == Cell.Category.MIXER) ||
             ((getPosition().y >= 0 && getPosition().y < nRowCell && getPosition().x + 1 >= 0 && getPosition().x + 1 < nCollumnCell) && worldMap.get(getPosition().y,getPosition().x + 1).getCategory() == Cell.Category.MIXER) ||
             ((getPosition().y - 1 >= 0 && getPosition().y - 1 < nRowCell && getPosition().x >= 0 && getPosition().x < nCollumnCell) && worldMap.get(getPosition().y - 1,getPosition().x).getCategory() == Cell.Category.MIXER) ||
             ((getPosition().y >= 0 && getPosition().y < nRowCell && getPosition().x - 1 >= 0 && getPosition().x - 1 < nCollumnCell) && worldMap.get(getPosition().y,getPosition().x - 1).getCategory() == Cell.Category.MIXER)) {
-            System.out.println("Which recipe are you going to make?");
-            choice = Integer.parseInt(in.nextLine());
+            int choice = Integer.parseInt(JOptionPane.showInputDialog("Please input recipe number : "));
             if (choice > 0 && choice <= recipeBook.size()) { //dari 1 sampai 3
                 boolean allExist = true;
                 for (int i = 0; i < recipeBook.get(choice - 1).getRecipe().size() && allExist; i++) {
-                    if (inventory.indexOf(recipeBook.get(choice - 1).getRecipe().get(i)) == -1) { //gak ketemu
+                    boolean found = false;
+                    for (int j = 0; j < inventory.size() && !found; j++){
+                        if (inventory.get(j).getCategory() == recipeBook.get(choice - 1).getRecipe().get(i).getCategory()){
+                            found = true;
+                        }
+                    }                   
+                    if (!found) { //gak ketemu
                         allExist = false;
                     }
                 }
                 if (allExist) {
-                    for (int i = 0; i < recipeBook.get(choice - 1).getRecipe().size(); i++) { //delete semua resep yg ada di dalem inventory
-                        int delIdx = inventory.indexOf(recipeBook.get(choice - 1).getRecipe().get(i));
+                    for (int i = recipeBook.get(choice - 1).getRecipe().size() - 1; i >= 0 ; i--) { //delete semua resep yg ada di dalem inventory
+                        int delIdx;
+                        boolean found = false;
+                        for (delIdx = 0; !found; delIdx++){
+                            if (inventory.get(delIdx).getCategory() == 
+                                recipeBook.get(choice - 1).getRecipe().get(i).getCategory()){
+                                found = true;
+                            }
+                        }
+                        delIdx--;
                         inventory.remove(delIdx);
                     }
                     if (recipeBook.get(choice - 1).getCategory() == Product.Category.BEEFCHICKENOMELETTE) {
@@ -115,7 +129,7 @@ public class Player extends LivingThing {
                     } else if (recipeBook.get(choice - 1).getCategory() == Product.Category.SUPERSECRETSPECIALPRODUCT) {
                         inventory.add(new SuperSecretSpecialProduct());
                     }
-                    throw new GeneralException("What a great leap for humanity! You have made something!");
+                    throw new GeneralException("What a great leap for humanity! \nYou have made something!");
                 } else {
                     throw new GeneralException("You don't have the required ingredients!");
                 }
@@ -136,7 +150,7 @@ public class Player extends LivingThing {
             ((getPosition().y - 1 >= 0 && getPosition().y - 1 < nRowCell && getPosition().x >= 0 && getPosition().x < nCollumnCell) && worldMap.get(getPosition().y - 1,getPosition().x).getCategory() == Cell.Category.WELL) ||
             ((getPosition().y >= 0 && getPosition().y < nRowCell && getPosition().x - 1 >= 0 && getPosition().x - 1 < nCollumnCell) && worldMap.get(getPosition().y,getPosition().x - 1).getCategory() == Cell.Category.WELL)) {
             this.water = 20;
-            throw new GeneralException("You take clear water from the well before you");
+            throw new GeneralException("You take clear water from \nthe well before you");
         }
     }
 
@@ -152,7 +166,7 @@ public class Player extends LivingThing {
                 sum += inventory.get(0).getPrice();
                 inventory.remove(0);
             }
-            throw new GeneralException("Oh no! Your inventory is gone. But you just got Rp" + Integer.toString(sum));
+            throw new GeneralException("Oh no! Your inventory is gone. \nBut you just got Rp" + Integer.toString(sum));
         }
     }
 

@@ -3,8 +3,10 @@ package engisfarm.cell;
 import java.awt.Image;
 import javax.swing.ImageIcon;
 
-/** Truck merupakan kelas turunan dari Facility yang dapat digunakan untuk
- *  menjual seluruh barang di inventori */
+/** 
+ * Truck merupakan kelas turunan dari Facility yang dapat digunakan untuk
+ * menjual seluruh barang di inventori 
+ */
 public class Truck extends Facility {
     /** Return kategori dari objek ini */
     public Category getCategory()
