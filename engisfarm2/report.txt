@@ -1,0 +1,232 @@
+
+--------------------------------------------------
+- Package: engisfarm
+--------------------------------------------------
+
+Stats:
+    Total Classes: 12
+    Concrete Classes: 11
+    Abstract Classes: 1
+
+    Ca: 1
+    Ce: 9
+
+    A: 0.08
+    I: 0.9
+    D: 0.02
+
+Abstract Classes:
+    engisfarm.LivingThing
+
+Concrete Classes:
+    engisfarm.Direction
+    engisfarm.GeneralException
+    engisfarm.LivingThing$1
+    engisfarm.Matrix
+    engisfarm.Player
+    engisfarm.Point
+    engisfarm.World
+    engisfarm.WorldController
+    engisfarm.WorldView
+    engisfarm.WorldView$1
+    engisfarm.WorldView$KeyListener
+
+Depends Upon:
+    engisfarm.cell
+    engisfarm.farmanimal
+    engisfarm.product
+    java.awt
+    java.awt.event
+    java.io
+    java.lang
+    java.util
+    javax.swing
+
+Used By:
+    engisfarm.farmanimal
+
+--------------------------------------------------
+- Package: engisfarm.cell
+--------------------------------------------------
+
+Stats:
+    Total Classes: 10
+    Concrete Classes: 7
+    Abstract Classes: 3
+
+    Ca: 2
+    Ce: 3
+
+    A: 0.3
+    I: 0.6
+    D: 0.1
+
+Abstract Classes:
+    engisfarm.cell.Cell
+    engisfarm.cell.Facility
+    engisfarm.cell.Land
+
+Concrete Classes:
+    engisfarm.cell.Barn
+    engisfarm.cell.Cell$Category
+    engisfarm.cell.Coop
+    engisfarm.cell.GrassLand
+    engisfarm.cell.Mixer
+    engisfarm.cell.Truck
+    engisfarm.cell.Well
+
+Depends Upon:
+    java.awt
+    java.lang
+    javax.swing
+
+Used By:
+    engisfarm
+    engisfarm.farmanimal
+
+--------------------------------------------------
+- Package: engisfarm.farmanimal
+--------------------------------------------------
+
+Stats:
+    Total Classes: 11
+    Concrete Classes: 7
+    Abstract Classes: 4
+
+    Ca: 1
+    Ce: 7
+
+    A: 0.36
+    I: 0.88
+    D: 0.24
+
+Abstract Classes:
+    engisfarm.farmanimal.EggProducer
+    engisfarm.farmanimal.FarmAnimal
+    engisfarm.farmanimal.MeatProducer
+    engisfarm.farmanimal.MilkProducer
+
+Concrete Classes:
+    engisfarm.farmanimal.Chicken
+    engisfarm.farmanimal.Cow
+    engisfarm.farmanimal.Duck
+    engisfarm.farmanimal.FarmAnimal$Action
+    engisfarm.farmanimal.Horse
+    engisfarm.farmanimal.Owl
+    engisfarm.farmanimal.Pig
+
+Depends Upon:
+    engisfarm
+    engisfarm.cell
+    engisfarm.product
+    java.awt
+    java.lang
+    java.util
+    javax.swing
+
+Used By:
+    engisfarm
+
+--------------------------------------------------
+- Package: engisfarm.product
+--------------------------------------------------
+
+Stats:
+    Total Classes: 13
+    Concrete Classes: 10
+    Abstract Classes: 3
+
+    Ca: 2
+    Ce: 2
+
+    A: 0.23
+    I: 0.5
+    D: 0.27
+
+Abstract Classes:
+    engisfarm.product.FarmProduct
+    engisfarm.product.Product
+    engisfarm.product.SideProduct
+
+Concrete Classes:
+    engisfarm.product.BeefChickenOmelette
+    engisfarm.product.BeefHaramSate
+    engisfarm.product.ChickenEgg
+    engisfarm.product.CowMeat
+    engisfarm.product.DuckMeat
+    engisfarm.product.HorseMilk
+    engisfarm.product.OwlEgg
+    engisfarm.product.PigMeat
+    engisfarm.product.Product$Category
+    engisfarm.product.SuperSecretSpecialProduct
+
+Depends Upon:
+    java.lang
+    java.util
+
+Used By:
+    engisfarm
+    engisfarm.farmanimal
+
+--------------------------------------------------
+- Package: java.awt
+--------------------------------------------------
+No stats available: package referenced, but not analyzed.
+
+--------------------------------------------------
+- Package: java.awt.event
+--------------------------------------------------
+No stats available: package referenced, but not analyzed.
+
+--------------------------------------------------
+- Package: java.io
+--------------------------------------------------
+No stats available: package referenced, but not analyzed.
+
+--------------------------------------------------
+- Package: java.lang
+--------------------------------------------------
+No stats available: package referenced, but not analyzed.
+
+--------------------------------------------------
+- Package: java.util
+--------------------------------------------------
+No stats available: package referenced, but not analyzed.
+
+--------------------------------------------------
+- Package: javax.swing
+--------------------------------------------------
+No stats available: package referenced, but not analyzed.
+
+
+--------------------------------------------------
+- Package Dependency Cycles:
+--------------------------------------------------
+
+engisfarm
+    |
+    |   engisfarm.farmanimal
+    |-> engisfarm
+
+engisfarm.farmanimal
+    |
+    |   engisfarm
+    |-> engisfarm.farmanimal
+
+
+--------------------------------------------------
+- Summary:
+--------------------------------------------------
+
+Name, Class Count, Abstract Class Count, Ca, Ce, A, I, D, V:
+
+engisfarm,12,1,1,9,0.08,0.9,0.02,1
+engisfarm.cell,10,3,2,3,0.3,0.6,0.1,1
+engisfarm.farmanimal,11,4,1,7,0.36,0.88,0.24,1
+engisfarm.product,13,3,2,2,0.23,0.5,0.27,1
+java.awt,0,0,3,0,0,0,1,1
+java.awt.event,0,0,1,0,0,0,1,1
+java.io,0,0,1,0,0,0,1,1
+java.lang,0,0,4,0,0,0,1,1
+java.util,0,0,3,0,0,0,1,1
+javax.swing,0,0,3,0,0,0,1,1
