@@ -136,6 +136,7 @@ public abstract class FarmAnimal extends LivingThing{
                     d = Direction.DOWN;
                     break;
             }
+            move(d);
         } else if (Point.manhattanDist(this.getPosition(), nearestPoint) != 0) {
             if (Math.abs(this.getPosition().x - nearestPoint.x) > Math.abs(this.getPosition().y - nearestPoint.y)
                     && ((this.getPosition().x < nCollumnCell-1 && this.canMoveTo(worldMap.get(this.getPosition().y, this.getPosition().x+1)))
@@ -156,8 +157,8 @@ public abstract class FarmAnimal extends LivingThing{
                     d = Direction.UP;
                 }
             }
+            move(d);
         }
-        move(d);
     }
 
     /** Apakah bisa masuk suatu area (cek out of bound, jenis Cell, kekosongan Cell) */
