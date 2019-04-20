@@ -5,7 +5,7 @@
 # define a variable for a parameter. When you run make, you could use:
 # make run FILE="Algo.csv" para sobre escribir el valor de FILE.
 
-JFLAGS = -g
+JFLAGS = -g -cp "out/bin/" -d "out/bin/"
 JC = javac
 JVM= java
 FILE=
@@ -36,7 +36,7 @@ FILE=
 #
 
 .java.class:
-        $(JC) $(JFLAGS) $*.java
+		$(JC) $(JFLAGS) $*.java
 
 
 #
@@ -49,10 +49,20 @@ FILE=
 # NAME = Camilo        Juan
 
 CLASSES = \
-        src/engisfarm/*.java \
+        src/engisfarm/Point.java \
+        src/engisfarm/Direction.java \
+        src/engisfarm/Matrix.java \
+        src/engisfarm/GeneralException.java \
         src/engisfarm/cell/*.java \
+        src/engisfarm/product/*.java \
+        src/engisfarm/LivingThing.java \
         src/engisfarm/farmanimal/*.java \
-        src/engisfarm/product/*.java
+        src/engisfarm/Player.java \
+        src/engisfarm/World.java \
+        src/engisfarm/WorldView.java \
+        src/engisfarm/WorldController.java \
+        src/engisfarm/Main.java
+
 
 #
 # MAIN is a variable with the name of the file containing the main method
@@ -78,6 +88,10 @@ default: classes
 classes: $(CLASSES:.java=.class)
 
 
+# Copy Something and make jar
+	cp resources/ out/bin/ -R
+	jar cfe out/bin/engisfarm.jar engisfarm.Main -C out/bin/ .
+
 # Next two lines contain a target for running the program
 # Remember the tab in the second line.
 # $(JMV) y $(MAIN) are replaced by their values
@@ -92,4 +106,4 @@ run: $(MAIN).class
 #
 
 clean:
-        $(RM) *.class
+		$(RM) *.class
