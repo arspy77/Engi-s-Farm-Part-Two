@@ -19,7 +19,7 @@ public class Player extends LivingThing {
         super(position, worldMap, nRowCell, nCollumnCell);
         money = 0;
         water = 5;
-        recipeBook = new LinkedList<SideProduct>();
+        recipeBook = new ArrayList<SideProduct>();
         recipeBook.add(new BeefChickenOmelette());
         recipeBook.add(new BeefHaramSate());
         recipeBook.add(new SuperSecretSpecialProduct());
@@ -186,7 +186,7 @@ public class Player extends LivingThing {
     }
 
     /** Getter daftar resep yang dimiliki Player */
-    public LinkedList<SideProduct> getrecipeBook() {
+    public ArrayList<SideProduct> getrecipeBook() {
         return recipeBook;
     }
 
@@ -209,7 +209,7 @@ public class Player extends LivingThing {
      * tersebut.
      * recipeBook diinisalisasi di implementasi
      */
-    private LinkedList<SideProduct> recipeBook;
+    private ArrayList<SideProduct> recipeBook;
 
     /** Apakah bisa masuk suatu area (cek out of bound, jenis Cell, kekosongan Cell) */
     protected boolean canMoveTo(Cell toWhere) {
