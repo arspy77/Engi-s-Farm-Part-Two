@@ -4,6 +4,7 @@ import engisfarm.cell.*;
 import engisfarm.farmanimal.*;
 import engisfarm.product.*;
 import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.Random;
 
 /** World adalah kelas yang merepresentasikan dunia yang menyimpan semua Cell dan LivingThing di dalamnya */

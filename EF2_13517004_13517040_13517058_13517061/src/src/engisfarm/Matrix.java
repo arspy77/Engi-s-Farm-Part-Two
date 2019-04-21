@@ -1,14 +1,14 @@
 package engisfarm;
 
-import java.util.LinkedList;
+import java.util.Vector;
 
 /** Kelas generic yang merepresentasikan matriks dua dimensi */
 public class Matrix<Type> {
     /** Constructor dari Matrix */
     public Matrix(int nRow, int nColl, Type init) {
-        data = new LinkedList<LinkedList<Type>>();
+        data = new Vector<Vector<Type>>();
         for (int i = 0; i < nRow; i++) {
-            data.add(new LinkedList<Type>());
+            data.add(new Vector<Type>());
         }
         for (int i = 0; i < nRow; i++) {
             for (int j = 0; j < nColl; j++) {
@@ -28,5 +28,5 @@ public class Matrix<Type> {
     }
 
     /** Container dari data matriks */
-    private LinkedList<LinkedList<Type>> data;
+    private Vector<Vector<Type>> data;
 }

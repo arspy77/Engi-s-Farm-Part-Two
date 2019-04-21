@@ -5,7 +5,7 @@
 # define a variable for a parameter. When you run make, you could use:
 # make run FILE="Algo.csv" para sobre escribir el valor de FILE.
 
-JFLAGS = -g -cp "bin/" -d "bin/"
+JFLAGS = -g -cp "../bin/" -d "../bin/"
 JC = javac
 JVM= java
 FILE=
@@ -44,7 +44,7 @@ FILE=
 # When a single line is too long, use \<return> to split lines that then will be
 # considered as a single line. For example:
 # NAME = Camilo \
-         Juan
+#         Juan
 # is understood as
 # NAME = Camilo        Juan
 
@@ -89,7 +89,7 @@ classes: $(CLASSES:.java=.class)
 
 
 # Copy Something and make jar
-	jar cfe ../bin/engisfarm.jar engisfarm.Main -C bin/ .
+	jar cfe ../bin/engisfarm.jar engisfarm.Main -C ../bin/ .
 
 # Next two lines contain a target for running the program
 # Remember the tab in the second line.
